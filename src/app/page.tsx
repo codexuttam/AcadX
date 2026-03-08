@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, MessageSquare, Shield, Users, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ENGINEERING_FACTS } from '@/data/facts'
 
 function FAQItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -35,6 +37,80 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
           {answer}
         </p>
       )}
+    </div>
+  )
+}
+
+function DraggableTeacher() {
+  const [fact, setFact] = useState("")
+  const [showFact, setShowFact] = useState(false)
+
+  const getRandomFact = () => {
+    const randomFact = ENGINEERING_FACTS[Math.floor(Math.random() * ENGINEERING_FACTS.length)]
+    setFact(randomFact)
+    setShowFact(true)
+    // Auto hide after 5 seconds if not clicked again
+    setTimeout(() => setShowFact(false), 5000)
+  }
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <AnimatePresence>
+        {showFact && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: -100, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.8 }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: 'var(--accent)',
+              color: 'white',
+              padding: '1rem',
+              borderRadius: '12px',
+              width: '250px',
+              zIndex: 100,
+              boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              pointerEvents: 'none'
+            }}
+          >
+            {fact}
+            <div style={{
+              position: 'absolute',
+              bottom: '-10px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 0,
+              height: 0,
+              borderLeft: '10px solid transparent',
+              borderRight: '10px solid transparent',
+              borderTop: '10px solid var(--accent)'
+            }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        drag
+        dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
+        whileHover={{ scale: 1.1, rotateY: 20, rotateX: -10 }}
+        whileTap={{ scale: 0.9, cursor: 'grabbing' }}
+        onClick={getRandomFact}
+        style={{
+          fontSize: '6rem',
+          cursor: 'grab',
+          display: 'block',
+          userSelect: 'none',
+          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.5))',
+          transformStyle: 'preserve-3d'
+        }}
+      >
+        👨‍🏫
+      </motion.div>
     </div>
   )
 }
@@ -265,7 +341,7 @@ export default function LandingPage() {
                   <div style={{ display: 'flex' }}>
                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} fill="var(--warning)" color="var(--warning)" />)}
                   </div>
-                  <span style={{ fontWeight: 700, fontStyle: 'italic' }}>"Pehle use kar, firr reviews milenge 😉"</span>
+                  <span style={{ fontWeight: 700, fontStyle: 'italic' }}>&quot;Pehle use kar, firr reviews milenge 😉&quot;</span>
                 </div>
               </div>
             </div>
@@ -274,13 +350,23 @@ export default function LandingPage() {
       </section>
 
       {/* Faculty Acknowledgement */}
-      <section style={{ padding: '6rem 2rem', background: 'var(--bg-primary)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap-reverse', gap: '4rem', alignItems: 'center' }}>
+      <section style={{ padding: '6rem 2rem', background: 'var(--bg-primary)', perspective: '1500px' }}>
+        <motion.div
+          initial={{ opacity: 0, rotateX: 10, y: 50 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap-reverse', gap: '4rem', alignItems: 'center' }}
+        >
           <div style={{ flex: '1 1 500px' }}>
-            <div className="card glass" style={{ padding: '3rem', borderLeft: '4px solid var(--accent)' }}>
+            <motion.div
+              whileHover={{ rotateY: 5, rotateX: -2 }}
+              className="card glass"
+              style={{ padding: '3rem', borderLeft: '4px solid var(--accent)', transition: 'transform 0.4s ease' }}
+            >
               <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1.5rem' }}>Faculty Recognition & Rewards</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.8 }}>
-                AcadX is more than a tool; it's a professional platform where expertise is valued.
+                AcadX is more than a tool; it&apos;s a professional platform where expertise is valued.
                 Professors and TAs contribute their knowledge to maintain the highest academic standards.
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
@@ -295,14 +381,15 @@ export default function LandingPage() {
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expert solvers are eligible for performance-based compensation and research grants.</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
           <div style={{ flex: '1 1 300px', textAlign: 'center' }}>
-            <div style={{ fontSize: '5rem', display: 'block' }}>👨‍🏫</div>
+            <DraggableTeacher />
             <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '1.5rem', color: 'white' }}>For the Educators</h3>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Building the future of peer-to-peer engineering education, one verified answer at a time.</p>
+            <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '1rem', fontStyle: 'italic' }}>Drag or click the Prof for some &apos;Academic Rizz&apos; facts. 👆</p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <div className="section-divider" />
@@ -354,7 +441,7 @@ export default function LandingPage() {
         </div>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>Ready to Scale Your<br />Academic Growth?</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', fontSize: '1.1rem' }}>Join your university's most active doubt clearing platform today. It's free, it's fast, and it works.</p>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', fontSize: '1.1rem' }}>Join your university&apos;s most active doubt clearing platform today. It&apos;s free, it&apos;s fast, and it works.</p>
           <Link href="/login?register=true" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
             Create Your Free Account
           </Link>
