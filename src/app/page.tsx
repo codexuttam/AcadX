@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { CheckCircle, MessageSquare, Shield, Users, ArrowRight, Star, Cpu, BookOpen, ChevronDown } from 'lucide-react'
+import { CheckCircle, MessageSquare, Shield, Users, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
 
 function FAQItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -102,13 +102,13 @@ export default function LandingPage() {
       }}>
         <div className="animate-fadeIn" style={{ maxWidth: '900px', margin: '0 auto' }}>
           <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', marginBottom: '1.5rem', padding: '0.4rem 1rem' }}>
-            ✨ Revolutionizing Academic Doubt Resolution
+            ⚡ Official Academic Portal for Engineering Students
           </div>
           <h1 className="gradient-text" style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '1.5rem' }}>
-            Clear Your Doubts.<br />Master Your Subjects.
+            Collaborative Learning.<br />Verified Solutions.
           </h1>
           <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
-            The ultimate doubt resolution platform for engineering students. Connect with verified professors and get your questions answered in real-time.
+            A rigorous ecosystem for engineering excellence. Post your doubts, consult our network of verified professors, and contribute to the collective knowledge base.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
             <Link href="/login?register=true" className="btn btn-primary" style={{ padding: '0.8rem 2rem', fontSize: '1rem' }}>
@@ -133,14 +133,14 @@ export default function LandingPage() {
                 <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>CSE Student</div>
               </div>
             </div>
-            <h3 style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.5rem' }}>How does the Transformer Architecture handle long sequences?</h3>
-            <div className="tag" style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>Neural Networks</div>
+            <h3 style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.5rem' }}>Deriving the boundary conditions for a perfect conductor in EM fields?</h3>
+            <div className="tag" style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>Electromagnetics</div>
             <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>❤️ 42</span>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>💬 12</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>❤️ 18</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>💬 4</span>
               </div>
-              <span className="tag" style={{ background: 'var(--success)', color: 'white', fontSize: '0.6rem' }}>✓ Resolved</span>
+              <span className="tag" style={{ background: 'var(--success)', color: 'white', fontSize: '0.6rem' }}>✓ Verified by Prof. Rajesh</span>
             </div>
           </div>
         </div>
@@ -156,9 +156,9 @@ export default function LandingPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
             {[
-              { icon: <MessageSquare size={32} />, title: "Ask Your Doubt", desc: "Post your questions with code snippets or images. Specify your subject to reach the right experts." },
-              { icon: <Shield size={32} />, title: "Verified Answers", desc: "Professors and top-performing students provide detailed, high-quality resolutions to your queries." },
-              { icon: <CheckCircle size={32} />, title: "Unlock Knowledge", desc: "Upvote the best answers, mark doubts as solved, and build your own library of academic insights." }
+              { icon: <MessageSquare size={32} />, title: "Precision Queries", desc: "Submit technical queries with LaTeX support, code blocks, and diagrams. Precision leads to clarity." },
+              { icon: <Shield size={32} />, title: "Expert Verification", desc: "Our network of verified educators and domain experts provide peer-reviewed, step-by-step resolutions." },
+              { icon: <CheckCircle size={32} />, title: "Academic Repository", desc: "Every solved doubt contributes to an evergreen library of engineering insights accessible to all active users." }
             ].map((step, i) => (
               <div key={i} className="card glow-card tilt-3d" style={{ padding: '2.5rem', border: '1px solid var(--border-light)', background: 'var(--bg-card)' }}>
                 <div style={{ width: 64, height: 64, background: 'var(--accent-glow)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', marginBottom: '1.5rem' }}>
@@ -183,9 +183,9 @@ export default function LandingPage() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
-                  { icon: <Cpu size={20} />, title: "AI-Powered Suggestions", desc: "Get instant relevant resources while you type your question." },
-                  { icon: <Shield size={20} />, title: "Verified Educators Only", desc: "Rest easy knowing your answers come from domain experts." },
-                  { icon: <BookOpen size={20} />, title: "Subject-Specific Feeds", desc: "Tailored experience whether you're in CSE, Mechanical, or EEE." }
+                  { icon: <Cpu size={20} />, title: "Intelligent Retrieval", desc: "Our system identifies related case studies and solutions as you draft your query." },
+                  { icon: <Shield size={20} />, title: "Incentivized Educators", desc: "Professors receive professional credits and compensation for high-quality doubt resolution." },
+                  { icon: <BookOpen size={20} />, title: "Subject-Specific Feeds", desc: "Direct integration with CSE, AIML, ECE, ME, and Civil Engineering curricula." }
                 ].map((feat, i) => (
                   <div key={i} style={{ display: 'flex', gap: '1rem' }}>
                     <div style={{ color: 'var(--accent)', marginTop: '0.2rem' }}>{feat.icon}</div>
@@ -199,19 +199,19 @@ export default function LandingPage() {
             </div>
             <div style={{ flex: '1 1 400px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)' }}>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent)' }}>98%</div>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Resolution Rate</div>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent)' }}>92%</div>
+                <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Active Resolve Rate</div>
               </div>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', marginTop: '2rem' }}>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#a855f7' }}>50+</div>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Verified Professors</div>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#a855f7' }}>24+</div>
+                <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Verified Faculty Members</div>
               </div>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', gridColumn: 'span 2' }}>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                   <div style={{ display: 'flex' }}>
                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} fill="var(--warning)" color="var(--warning)" />)}
                   </div>
-                  <span style={{ fontWeight: 700 }}>"Game changer for exam prep"</span>
+                  <span style={{ fontWeight: 700, fontStyle: 'italic' }}>"Pehle use kar, firr reviews milenge 😉"</span>
                 </div>
               </div>
             </div>
@@ -219,14 +219,46 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Faculty Acknowledgement */}
+      <section style={{ padding: '6rem 2rem', background: 'var(--bg-primary)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap-reverse', gap: '4rem', alignItems: 'center' }}>
+          <div style={{ flex: '1 1 500px' }}>
+            <div className="card glass" style={{ padding: '3rem', borderLeft: '4px solid var(--accent)' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1.5rem' }}>Faculty Recognition & Rewards</h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.8 }}>
+                AcadX is more than a tool; it's a professional platform where expertise is valued.
+                Professors and TAs contribute their knowledge to maintain the highest academic standards.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                <div>
+                  <div style={{ color: 'var(--accent)', marginBottom: '0.75rem' }}><Award size={24} /></div>
+                  <h4 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>Professional Credits</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Each verified resolution counts towards formal institutional contribution metrics.</p>
+                </div>
+                <div>
+                  <div style={{ color: '#a855f7', marginBottom: '0.75rem' }}><Star size={24} /></div>
+                  <h4 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>Tiered Compensation</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expert solvers are eligible for performance-based compensation and research grants.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style={{ flex: '1 1 300px', textAlign: 'center' }}>
+            <div style={{ fontSize: '5rem', display: 'block' }}>👨‍🏫</div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '1.5rem', color: 'white' }}>For the Educators</h3>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Building the future of peer-to-peer engineering education, one verified answer at a time.</p>
+          </div>
+        </div>
+      </section>
+
       {/* Impact Section */}
       <section style={{ padding: '6rem 2rem', textAlign: 'center', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-light)' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '3rem' }}>Empowering Thousands of Students</h2>
+        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '3rem' }}>Current Platform Pulse</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', maxWidth: '1000px', margin: '0 auto' }}>
           {[
-            { num: "10K+", label: "Monthly Questions" },
-            { num: "500+", label: "Academic Resources" },
-            { num: "24/7", label: "Peer Support" }
+            { num: "2.4K+", label: "Solved Challenges" },
+            { num: "12", label: "Core Subjects" },
+            { num: "Real-time", label: "Technical Support" }
           ].map((stat, i) => (
             <div key={i} className="tilt-3d" style={{ background: 'var(--bg-card)', padding: '2rem 4rem', borderRadius: '24px', flex: '1 1 250px', border: '1px solid var(--border-light)' }}>
               <div style={{ fontSize: '3rem', fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>{stat.num}</div>

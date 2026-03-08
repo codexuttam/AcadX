@@ -3,16 +3,16 @@
 import { useEffect, useState } from 'react'
 
 const GEN_Z_MESSAGES = [
-    "Wait while we gas you up... ⛽",
-    "No cap, we're almost there... 🧢",
-    "Bussing through the data... 🔥",
-    "Just a sec, we're vibing... ✨",
-    "Main character energy incoming... 💅",
-    "Doing a quick check, respect the grind... 💪",
-    "Calculating the rizz level... 😎",
-    "Awaiting your presence, it's giving main character... 👑",
-    "We out here fetching facts... 🗣️",
-    "Don't leave us on read, stay with us... 📱"
+    "Pehle use kar, firr toh reviews milenge... 😉",
+    "Bussing through the Maxwell's equations... 🔥",
+    "Maxwell ke equations solve ho rahe hain, wait kar... ⚡",
+    "Logic build ho raha hai, no cap... 🧠",
+    "Compilation in progress, respect the crunch... 💻",
+    "Server heating up, just like my brain before exams... 🌡️",
+    "Frontend is giving main character energy... ✨",
+    "Deadlines are closer than they appear... 🕒",
+    "Debugging the final boss... 👾",
+    "Loading your academic rizz... 📈"
 ]
 
 export default function Loading() {
