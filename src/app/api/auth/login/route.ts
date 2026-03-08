@@ -21,6 +21,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
         }
 
+        // Weekly credit reset check
+        const { checkAndResetCredits } = await import('@/lib/credits')
+        await checkAndResetCredits(user.id)
+
         const token = signToken({
             userId: user.id,
             email: user.email,

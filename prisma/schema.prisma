@@ -13,13 +13,24 @@ model User {
   password   String
   role       String   @default("student") // student | professor | admin
   department String   @default("CSE")
-  verified   Boolean  @default(false)
-  avatar     String?
-  createdAt  DateTime @default(now())
+  verified        Boolean  @default(false)
+  avatar          String?
+  credits         Int      @default(10)
+  lastCreditReset DateTime @default(now())
+  createdAt       DateTime @default(now())
 
   questions  Question[]
   answers    Answer[]
   upvotes    Upvote[]
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String
+  expires DateTime
+
+  @@unique([email, token])
 }
 
 model Subject {
@@ -37,6 +48,7 @@ model Question {
   title       String
   description String
   codeSnippet String?
+  image       String?
   views       Int      @default(0)
   solved      Boolean  @default(false)
   createdAt   DateTime @default(now())

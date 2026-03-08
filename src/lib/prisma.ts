@@ -9,9 +9,14 @@ const globalForPrisma = globalThis as unknown as {
 function createPrismaClient() {
     const dbPath = path.resolve(process.cwd(), 'prisma', 'dev.db')
     const adapter = new PrismaBetterSqlite3({ url: `file:${dbPath}` })
+    console.log('--- Initializing Prisma Client 7.4.2 ---')
     return new PrismaClient({ adapter } as any)
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient()
+// Force a fresh instance for this reload
+export const prisma = createPrismaClient()
+// export const prisma = globalForPrisma.prisma ?? createPrismaClient()
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+if (process.env.NODE_ENV !== 'production') {
+    globalForPrisma.prisma = prisma
+}

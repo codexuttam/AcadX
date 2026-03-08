@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import Image from 'next/image'
 
 export default function LoginPage() {
     return (
@@ -24,8 +24,10 @@ function LoginContent() {
     const cardRef = useRef<HTMLDivElement>(null)
 
     const [form, setForm] = useState({
-        name: '', email: '', password: '', department: 'CSE', role: 'student'
+        name: '', email: '', password: '', department: 'CSE', role: 'student', otp: ''
     })
+    const [otpSent, setOtpSent] = useState(false)
+    const [otpLoading, setOtpLoading] = useState(false)
 
     useEffect(() => {
         if (registerMode) setMode('register')
@@ -40,8 +42,32 @@ function LoginContent() {
         setHoverPos({ x, y })
     }
 
+    const handleSendOTP = async () => {
+        if (!form.email) { setError('Please enter your email first'); return }
+        setOtpLoading(true)
+        setError('')
+        try {
+            const res = await fetch('/api/auth/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: form.email }),
+            })
+            const data = await res.json()
+            if (!res.ok) { setError(data.error || 'Failed to send OTP'); return }
+            setOtpSent(true)
+        } catch {
+            setError('Network error. Failed to send OTP.')
+        } finally {
+            setOtpLoading(false)
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        if (mode === 'register' && !otpSent) {
+            handleSendOTP()
+            return
+        }
         setLoading(true)
         setError('')
 
@@ -77,9 +103,11 @@ function LoginContent() {
             <div style={{ width: '100%', maxWidth: '420px', position: 'relative' }}>
                 {/* Logo */}
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-                        <div style={{ width: 44, height: 44, background: 'var(--accent)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', boxShadow: '0 0 30px var(--accent-glow)' }}>⚡</div>
-                        <span style={{ fontSize: '1.8rem', fontWeight: '900', letterSpacing: '-0.04em' }}>AcadX</span>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                        <div style={{ position: 'relative', width: 48, height: 48, overflow: 'hidden' }}>
+                            <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
+                        </div>
+                        <span style={{ fontSize: '2rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
                     </div>
                 </div>
 
@@ -109,8 +137,19 @@ function LoginContent() {
 
                             <div>
                                 <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 500 }}>Email Address</label>
-                                <input className="input" type="email" placeholder="you@student.edu" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+                                <input className="input" type="email" placeholder="niu-22-12345@niu.edu.in" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+                                {mode === 'register' && !otpSent && (
+                                    <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>Only @niu.edu.in emails allowed.</p>
+                                )}
                             </div>
+
+                            {mode === 'register' && otpSent && (
+                                <div className="animate-fadeIn">
+                                    <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 500 }}>6-Digit OTP</label>
+                                    <input className="input" placeholder="123456" value={form.otp} onChange={e => setForm(f => ({ ...f, otp: e.target.value.replace(/\D/g, '').substring(0, 6) }))} required />
+                                    <p style={{ fontSize: '0.7rem', color: 'var(--success)', marginTop: '0.25rem' }}>Check your college email for the code.</p>
+                                </div>
+                            )}
 
                             <div>
                                 <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 500 }}>Password</label>
@@ -144,24 +183,13 @@ function LoginContent() {
                                 </div>
                             )}
 
-                            <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.95rem', marginTop: '0.5rem' }}>
-                                {loading ? <div className="spinner" /> : mode === 'login' ? 'Sign In to AcadX' : 'Create Account'}
+                            <button type="submit" className="btn btn-primary" disabled={loading || otpLoading} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.95rem', marginTop: '0.5rem' }}>
+                                {loading || otpLoading ? <div className="spinner" /> :
+                                    mode === 'login' ? 'Sign In to AcadX' :
+                                        otpSent ? 'Verify & Register' : 'Next: Get OTP'}
                             </button>
                         </form>
 
-                        {/* Demo credentials */}
-                        <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
-                            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Demo Accounts</p>
-                            {[
-                                { label: '🎓 Student', cred: 'uttam@student.edu / student@123' },
-                                { label: '👨‍🏫 Professor', cred: 'rajesh@engineering.edu / prof@123' },
-                            ].map(({ label, cred }) => (
-                                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', padding: '0.1rem 0' }}>
-                                    <span style={{ color: 'var(--text-secondary)' }}>{label}</span>
-                                    <code style={{ color: 'var(--accent)' }}>{cred}</code>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>

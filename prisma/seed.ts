@@ -70,17 +70,17 @@ async function main() {
 
     const studentHash = await bcrypt.hash('student@123', 12)
     await prisma.user.upsert({
-        where: { email: 'uttam@student.edu' },
+        where: { email: 'uttamrajsingh423@gmail.com' },
         update: {},
         create: {
             name: 'Uttamraj Singh',
-            email: 'uttam@student.edu',
+            email: 'uttamrajsingh423@gmail.com',
             password: studentHash,
             role: 'student',
             department: 'CSE',
         },
     })
-    console.log('✅ Student created')
+    console.log('✅ Student created (test email: uttamrajsingh423@gmail.com)')
 
     console.log('')
     console.log('🎉 Database seeded successfully!')
@@ -88,7 +88,7 @@ async function main() {
     console.log('Login credentials:')
     console.log('  Admin (Dean): dean@engineering.edu / dean@admin123')
     console.log('  Professor:    rajesh@engineering.edu / prof@123')
-    console.log('  Student:      uttam@student.edu / student@123')
+    console.log('  Student:      uttamrajsingh423@gmail.com / student@123')
 
     await prisma.$disconnect()
 }

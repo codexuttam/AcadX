@@ -5,10 +5,25 @@ import { signToken } from '@/lib/jwt'
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, email, password, department, role } = await req.json()
+        const { name, email, password, department, role, otp } = await req.json()
 
-        if (!name || !email || !password) {
-            return NextResponse.json({ error: 'All fields required' }, { status: 400 })
+        if (!name || !email || !password || !otp) {
+            return NextResponse.json({ error: 'All fields required, including OTP' }, { status: 400 })
+        }
+
+        // Domain check (extra safety)
+        const EMAIL_REGEX = /^niu-[a-z0-9]{2}-\d{5}@niu\.edu\.in$/
+        if (!EMAIL_REGEX.test(email)) {
+            return NextResponse.json({ error: 'Invalid college email format' }, { status: 400 })
+        }
+
+        // Verify OTP
+        const otpRecord = await prisma.verificationToken.findFirst({
+            where: { email, token: otp, expires: { gt: new Date() } }
+        })
+
+        if (!otpRecord) {
+            return NextResponse.json({ error: 'Invalid or expired OTP' }, { status: 401 })
         }
 
         const existing = await prisma.user.findUnique({ where: { email } })
@@ -17,6 +32,9 @@ export async function POST(req: NextRequest) {
         }
 
         const hashed = await bcrypt.hash(password, 12)
+
+        // Delete token
+        await prisma.verificationToken.deleteMany({ where: { email } })
 
         const user = await prisma.user.create({
             data: {

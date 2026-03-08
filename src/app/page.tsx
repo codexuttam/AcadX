@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CheckCircle, MessageSquare, Shield, Users, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
+import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ENGINEERING_FACTS } from '@/data/facts'
 
@@ -181,14 +181,25 @@ export default function LandingPage() {
     window.addEventListener('scroll', handleScroll)
 
     // Auth check - client side
+    // NOTE: previously this redirected authenticated users from the landing page
+    // straight to /admin or /feed. That made it impossible to view the marketing
+    // landing while signed in. Keep the check for UI purposes but do NOT
+    // automatically navigate away from the landing page.
     const checkAuth = async () => {
-      const res = await fetch('/api/auth/me')
-      if (res.ok) {
+      try {
+        const res = await fetch('/api/auth/me')
+        if (!res.ok) return
         const data = await res.json()
-        if (data.user) {
-          if (data.user.role === 'admin') router.push('/admin')
-          else router.push('/feed')
-        }
+        // we keep the user info in local state if needed in future, but do not
+        // redirect from the landing page. Protected pages already perform
+        // server-side redirects where necessary.
+        // Example: you can still redirect programmatically where appropriate:
+        // if (data.user && shouldRedirect) router.push('/feed')
+        // For now, no automatic navigation.
+        // (If you prefer the old behavior, set `shouldRedirect` based on a
+        // query param or env variable.)
+      } catch (err) {
+        // fail silently
       }
     }
     checkAuth()
