@@ -97,61 +97,115 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <header ref={heroRef} onMouseMove={handleMouseMove} style={{
-        padding: '10rem 2rem 6rem', textAlign: 'center', position: 'relative',
-        background: 'radial-gradient(circle at 50% 50%, rgba(108, 99, 255, 0.05) 0%, transparent 70%)'
+        padding: '12rem 2rem 8rem', textAlign: 'center', position: 'relative',
+        overflow: 'hidden', background: '#000'
       }}>
-        <div className="animate-fadeIn" style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', marginBottom: '1.5rem', padding: '0.4rem 1rem' }}>
-            ⚡ Official Academic Portal for Engineering Students
+        <div className="hero-4d-bg" />
+        <div className="hero-layer" />
+        <div className="grid-bg" />
+        <div className="ambient-orb" style={{ top: '10%', left: '5%' }} />
+        <div className="ambient-orb" style={{ bottom: '15%', right: '5%', animationDelay: '2s' }} />
+
+        <div className="animate-fadeIn" style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 10 }}>
+          <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', marginBottom: '2rem', padding: '0.5rem 1.25rem', fontSize: '0.85rem', fontWeight: 600, border: '1px solid var(--accent-glow)' }}>
+            INSTITUTIONAL GRADE • ACADEMIC INTEGRITY • SCALE 1.0
           </div>
-          <h1 className="gradient-text" style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '1.5rem' }}>
-            Collaborative Learning.<br />Verified Solutions.
+          <h1 className="premium-text" style={{ fontSize: 'clamp(3rem, 10vw, 5.5rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '2.5rem' }}>
+            The New Standard in Engineering Logic.
           </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
-            A rigorous ecosystem for engineering excellence. Post your doubts, consult our network of verified professors, and contribute to the collective knowledge base.
+          <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: 1.7, fontWeight: 400 }}>
+            An enterprise-level knowledge exchange for technical faculty and verified students. Clear confusion with peer-reviewed derivations and real-time expert oversight.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <Link href="/login?register=true" className="btn btn-primary" style={{ padding: '0.8rem 2rem', fontSize: '1rem' }}>
-              Get Started Now <ArrowRight size={18} />
+          <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center' }}>
+            <Link href="/login?register=true" className="btn btn-primary" style={{ padding: '1rem 3rem', fontSize: '1.1rem', fontWeight: 600 }}>
+              Initialize Access <ArrowRight size={18} />
             </Link>
-            <a href="#how-it-works" className="btn btn-outline" style={{ padding: '0.8rem 2rem', fontSize: '1rem' }}>How it Works</a>
+            <a href="#pulse" className="btn btn-outline" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>View Directives</a>
           </div>
         </div>
 
-        {/* 3D Floating Element Example */}
-        <div className="perspective-1000 animate-float" style={{ marginTop: '5rem', display: 'flex', justifyContent: 'center' }}>
+        {/* 4D Floating System Monitor */}
+        <div className="perspective-1000 animate-float" style={{ marginTop: '7rem', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
           <div className="glass tilt-3d glow-card" style={{
-            padding: '2rem', borderRadius: '24px', width: '320px',
-            transform: `perspective(1000px) rotateX(${(hoverPos.y - 0.5) * 20}deg) rotateY(${(hoverPos.x - 0.5) * 20}deg)`,
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-            border: '1px solid var(--border)'
+            padding: '2.5rem', borderRadius: '32px', width: '400px',
+            transform: `perspective(1200px) rotateX(${(hoverPos.y - 0.5) * 15}deg) rotateY(${(hoverPos.x - 0.5) * 15}deg)`,
+            boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.8)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(30px)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div className="avatar avatar-sm">A</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div className="live-indicator"></div>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#10b981', letterSpacing: '0.1em' }}>LIVE FEED</span>
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>SEC_CODE: 0x42F</div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div className="avatar" style={{ border: '2px solid var(--accent)' }}>A</div>
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.85rem' }}>Anushka S.</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>CSE Student</div>
+                <div style={{ fontWeight: 800, fontSize: '1rem' }}>Anushka S.</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Senior • CSE Department</div>
               </div>
             </div>
-            <h3 style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.5rem' }}>Deriving the boundary conditions for a perfect conductor in EM fields?</h3>
-            <div className="tag" style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>Electromagnetics</div>
-            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>❤️ 18</span>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>💬 4</span>
+
+            <h3 style={{ textAlign: 'left', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem', lineHeight: 1.4 }}>Deriving the boundary conditions for a perfect conductor in EM fields?</h3>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <div className="tag" style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>Electromagnetics</div>
+              <div className="tag" style={{ background: 'rgba(168, 85, 247, 0.1)', color: '#a855f7', fontSize: '0.65rem' }}>Maxwells_Eq</div>
+            </div>
+
+            <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-light)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <CheckCircle size={16} color="var(--success)" />
+                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Verified Resolution</span>
               </div>
-              <span className="tag" style={{ background: 'var(--success)', color: 'white', fontSize: '0.6rem' }}>✓ Verified by Prof. Rajesh</span>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem', textAlign: 'left' }}>Professor Rajesh validated this analytical derivation on 08.03.2026</p>
             </div>
           </div>
         </div>
       </header>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" style={{ padding: '6rem 2rem', background: 'var(--bg-secondary)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>How It Works</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>Bridging the gap between confusion and clarity in 3 simple steps.</p>
+      {/* Real-time Ticker */}
+      <div className="ticker-wrap">
+        <div className="ticker">
+          {[
+            "SOLVED: DERIVATION OF BERNOULLI'S PRINCIPLE • VERIFIED BY DR. MEHTA",
+            "NEW: THERMODYNAMICS ASSIGNMENT D-10 POSTED IN MECHANICAL",
+            "SOLVED: TRANSISTOR BIASING ANALYSIS • VERIFIED BY PROF. KAUR",
+            "NEW: DATA STRUCTURES DOUBT ARCHIVED FOR CSE L300",
+            "SOLVED: STOCHASTIC PROCESSES EVALUATION • VERIFIED BY DR. REDDY",
+            "NEW: FLUID MECHANICS LAB SOLUTIONS NOW SYNCED"
+          ].map((text, i) => (
+            <div key={i} className="ticker-item">
+              <span className="live-dot" /> {text}
+            </div>
+          ))}
+          {/* Double the array for seamless loop */}
+          {[
+            "SOLVED: DERIVATION OF BERNOULLI'S PRINCIPLE • VERIFIED BY DR. MEHTA",
+            "NEW: THERMODYNAMICS ASSIGNMENT D-10 POSTED IN MECHANICAL",
+            "SOLVED: TRANSISTOR BIASING ANALYSIS • VERIFIED BY PROF. KAUR",
+            "NEW: DATA STRUCTURES DOUBT ARCHIVED FOR CSE L300",
+            "SOLVED: STOCHASTIC PROCESSES EVALUATION • VERIFIED BY DR. REDDY",
+            "NEW: FLUID MECHANICS LAB SOLUTIONS NOW SYNCED"
+          ].map((text, i) => (
+            <div key={`dup-${i}`} className="ticker-item">
+              <span className="live-dot" /> {text}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="section-divider" />
+
+      {/* Institutional Directives (Formerly How It Works) */}
+      <section id="pulse" style={{ padding: '8rem 2rem', background: '#020202', position: 'relative', overflow: 'hidden' }}>
+        <div className="grid-bg" />
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Protocol Overview</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Ensuring structural integrity and peer-reviewed clarity at every layer.</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
@@ -251,18 +305,22 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* Impact Section */}
-      <section style={{ padding: '6rem 2rem', textAlign: 'center', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-light)' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '3rem' }}>Current Platform Pulse</h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', maxWidth: '1000px', margin: '0 auto' }}>
+      <section style={{ padding: '8rem 2rem', textAlign: 'center', background: '#000' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '4rem', color: 'var(--text-muted)', letterSpacing: '0.3em' }}>
+          GLOBAL NETWORK PARAMETERS
+        </h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'center', maxWidth: '1100px', margin: '0 auto' }}>
           {[
-            { num: "2.4K+", label: "Solved Challenges" },
-            { num: "12", label: "Core Subjects" },
-            { num: "Real-time", label: "Technical Support" }
+            { num: "92.4%", label: "ANALYTICAL RESOLVE RATE", accent: "var(--accent)" },
+            { num: "1.2K", label: "VERIFIED FACULTY NODE", accent: "#a855f7" },
+            { num: "REAL-TIME", label: "NETWORK UPTIME", accent: "var(--success)" }
           ].map((stat, i) => (
-            <div key={i} className="tilt-3d" style={{ background: 'var(--bg-card)', padding: '2rem 4rem', borderRadius: '24px', flex: '1 1 250px', border: '1px solid var(--border-light)' }}>
-              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>{stat.num}</div>
-              <div style={{ color: 'var(--accent)', fontWeight: 600, marginTop: '0.5rem' }}>{stat.label}</div>
+            <div key={i} style={{ flex: '1 1 250px' }}>
+              <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', letterSpacing: '-0.04em', marginBottom: '0.5rem' }}>{stat.num}</div>
+              <div style={{ color: stat.accent, fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.15em' }}>{stat.label}</div>
             </div>
           ))}
         </div>
