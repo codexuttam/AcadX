@@ -44,13 +44,25 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
 function DraggableTeacher() {
   const [fact, setFact] = useState("")
   const [showFact, setShowFact] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const [message, setMessage] = useState("")
 
   const getRandomFact = () => {
     const randomFact = ENGINEERING_FACTS[Math.floor(Math.random() * ENGINEERING_FACTS.length)]
     setFact(randomFact)
     setShowFact(true)
-    // Auto hide after 5 seconds if not clicked again
-    setTimeout(() => setShowFact(false), 5000)
+    setTimeout(() => setShowFact(false), 6000)
+  }
+
+  const handleDragStart = () => {
+    setIsDragging(true)
+    setMessage("Don&apos;t mess with me or I&apos;ll throw a fact!")
+    setShowFact(true)
+  }
+
+  const handleDragEnd = () => {
+    setIsDragging(false)
+    getRandomFact()
   }
 
   return (
@@ -59,36 +71,38 @@ function DraggableTeacher() {
         {showFact && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
-            animate={{ opacity: 1, y: -100, scale: 1 }}
+            animate={{ opacity: 1, y: -120, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.8 }}
             style={{
               position: 'absolute',
               top: 0,
               left: '50%',
               transform: 'translateX(-50%)',
-              background: 'var(--accent)',
+              background: isDragging ? '#ef4444' : 'var(--accent)',
               color: 'white',
               padding: '1rem',
               borderRadius: '12px',
-              width: '250px',
+              width: '280px',
               zIndex: 100,
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-              fontSize: '0.9rem',
-              fontWeight: 600,
+              boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
+              fontSize: '0.95rem',
+              fontWeight: 700,
+              textAlign: 'center',
+              border: '2px solid rgba(255,255,255,0.2)',
               pointerEvents: 'none'
             }}
           >
-            {fact}
+            {isDragging ? message : fact}
             <div style={{
               position: 'absolute',
-              bottom: '-10px',
+              bottom: '-12px',
               left: '50%',
               transform: 'translateX(-50%)',
               width: 0,
               height: 0,
-              borderLeft: '10px solid transparent',
-              borderRight: '10px solid transparent',
-              borderTop: '10px solid var(--accent)'
+              borderLeft: '12px solid transparent',
+              borderRight: '12px solid transparent',
+              borderTop: `12px solid ${isDragging ? '#ef4444' : 'var(--accent)'}`
             }} />
           </motion.div>
         )}
@@ -96,20 +110,73 @@ function DraggableTeacher() {
 
       <motion.div
         drag
-        dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
-        whileHover={{ scale: 1.1, rotateY: 20, rotateX: -10 }}
-        whileTap={{ scale: 0.9, cursor: 'grabbing' }}
+        dragConstraints={{ left: -150, right: 150, top: -150, bottom: 150 }}
+        whileHover={{ scale: 1.15, rotateY: 15 }}
+        whileTap={{ scale: 0.95, cursor: 'grabbing' }}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onClick={getRandomFact}
         style={{
-          fontSize: '6rem',
+          width: '180px',
+          height: '220px',
           cursor: 'grab',
-          display: 'block',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
           userSelect: 'none',
-          filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.5))',
+          position: 'relative',
+          filter: 'drop-shadow(0 30px 50px rgba(0,0,0,0.7))',
           transformStyle: 'preserve-3d'
         }}
       >
-        👨‍🏫
+        {/* Samurai Hat (Kabuto) */}
+        <div style={{
+          width: '120px',
+          height: '40px',
+          background: '#1a1a1a',
+          borderRadius: '50% 50% 0 0',
+          borderBottom: '4px solid #333',
+          position: 'absolute',
+          top: '15px',
+          zIndex: 5,
+          boxShadow: 'inset 0 10px 10px rgba(0,0,0,0.5)'
+        }}>
+          <div style={{ width: '40px', height: '10px', background: 'gold', position: 'absolute', top: '-5px', left: '40px', borderRadius: '2px' }} />
+        </div>
+
+        {/* Head/Face */}
+        <div style={{ fontSize: '6rem', position: 'relative', zIndex: 2, top: '-10px' }}>
+          👨‍🏫
+        </div>
+
+        {/* Black Coat / Body */}
+        <div style={{
+          width: '100px',
+          height: '80px',
+          background: '#0a0a0a',
+          borderRadius: '20px 20px 0 0',
+          position: 'absolute',
+          bottom: '10px',
+          zIndex: 1,
+          border: '1px solid #222'
+        }} />
+
+        {/* Laptop */}
+        <motion.div
+          animate={{ rotate: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          style={{
+            fontSize: '3rem',
+            position: 'absolute',
+            bottom: '30px',
+            right: '-10px',
+            zIndex: 6,
+            filter: 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'
+          }}
+        >
+          💻
+        </motion.div>
       </motion.div>
     </div>
   )
@@ -309,7 +376,7 @@ export default function LandingPage() {
             <div style={{ flex: '1 1 400px' }}>
               <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>Built for the <span style={{ color: 'var(--accent)' }}>Future</span> of Learning</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '2rem' }}>
-                AcadX isn't just a forum; it's a high-performance ecosystem designed to handle the rigorous demands of engineering coursework.
+                AcadX isn&apos;t just a forum; it&apos;s a high-performance ecosystem designed to handle the rigorous demands of engineering coursework.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
