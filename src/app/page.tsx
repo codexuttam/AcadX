@@ -215,9 +215,11 @@ export default function LandingPage() {
         borderBottom: scrolled ? '1px solid var(--border-light)' : 'none'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{ width: 32, height: 32, background: 'var(--accent)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>⚡</div>
-            <span style={{ fontSize: '1.25rem', fontWeight: '900', letterSpacing: '-0.04em' }}>AcadX</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ position: 'relative', width: 40, height: 40, overflow: 'hidden' }}>
+              <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
+            </div>
+            <span style={{ fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <Link href="/login" className="btn btn-ghost" style={{ fontSize: '0.85rem' }}>Login</Link>
@@ -507,9 +509,11 @@ export default function LandingPage() {
       <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border-light)', background: '#000' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between' }}>
           <div style={{ maxWidth: '300px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
-              <div style={{ width: 28, height: 28, background: 'var(--accent)', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.8rem' }}>⚡</div>
-              <span style={{ fontSize: '1.1rem', fontWeight: '900' }}>AcadX</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+              <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden' }}>
+                <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
+              </div>
+              <span style={{ fontSize: '1.25rem', fontWeight: '900', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>The academic layer for engineers. Built by students, for students, with support from professors.</p>
           </div>
