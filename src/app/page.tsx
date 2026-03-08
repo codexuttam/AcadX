@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { CheckCircle, MessageSquare, Shield, Users, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ENGINEERING_FACTS } from '@/data/facts'
@@ -56,7 +57,7 @@ function DraggableTeacher() {
 
   const handleDragStart = () => {
     setIsDragging(true)
-    setMessage("Don&apos;t mess with me or I&apos;ll throw a fact!")
+    setMessage("Don't mess with me or I'll throw a fact!")
     setShowFact(true)
   }
 
@@ -117,62 +118,49 @@ function DraggableTeacher() {
         onDragEnd={handleDragEnd}
         onClick={getRandomFact}
         style={{
-          width: '180px',
-          height: '220px',
+          width: '200px',
+          height: '200px',
           cursor: 'grab',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           userSelect: 'none',
           position: 'relative',
-          filter: 'drop-shadow(0 30px 50px rgba(0,0,0,0.7))',
+          filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.8))',
           transformStyle: 'preserve-3d'
         }}
       >
-        {/* Samurai Hat (Kabuto) */}
+        {/* Emo Professor Image */}
         <div style={{
-          width: '120px',
-          height: '40px',
-          background: '#1a1a1a',
-          borderRadius: '50% 50% 0 0',
-          borderBottom: '4px solid #333',
-          position: 'absolute',
-          top: '15px',
-          zIndex: 5,
-          boxShadow: 'inset 0 10px 10px rgba(0,0,0,0.5)'
-        }}>
-          <div style={{ width: '40px', height: '10px', background: 'gold', position: 'absolute', top: '-5px', left: '40px', borderRadius: '2px' }} />
-        </div>
-
-        {/* Head/Face */}
-        <div style={{ fontSize: '6rem', position: 'relative', zIndex: 2, top: '-10px' }}>
-          👨‍🏫
-        </div>
-
-        {/* Black Coat / Body */}
-        <div style={{
-          width: '100px',
-          height: '80px',
+          width: '100%',
+          height: '100%',
+          borderRadius: '30px',
+          overflow: 'hidden',
+          border: '2px solid rgba(168, 85, 247, 0.3)',
           background: '#0a0a0a',
-          borderRadius: '20px 20px 0 0',
-          position: 'absolute',
-          bottom: '10px',
-          zIndex: 1,
-          border: '1px solid #222'
-        }} />
+          position: 'relative',
+          zIndex: 2
+        }}>
+          <Image
+            src="/emo-prof.png"
+            alt="Emo Professor"
+            width={200}
+            height={200}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
 
-        {/* Laptop */}
+        {/* Floating Laptop */}
         <motion.div
-          animate={{ rotate: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
+          animate={{ rotate: [0, 10, 0], y: [0, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 3 }}
           style={{
-            fontSize: '3rem',
+            fontSize: '3.5rem',
             position: 'absolute',
-            bottom: '30px',
-            right: '-10px',
+            bottom: '-10px',
+            right: '-20px',
             zIndex: 6,
-            filter: 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'
+            filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.6))'
           }}
         >
           💻
