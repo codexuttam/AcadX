@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { TokenPayload } from '@/lib/jwt'
+import { TokenPayload } from '../../lib/jwt'
 import { formatDistanceToNow } from 'date-fns'
 
 interface Subject { id: string; name: string; color: string; icon: string; _count?: { questions: number } }
@@ -17,7 +17,7 @@ interface Question {
     _count: { answers: number; upvotes: number }
 }
 
-export default function FeedClient({ user }: { user: TokenPayload }) {
+export function FeedClient({ user }: { user: TokenPayload }) {
     const router = useRouter()
     const [subjects, setSubjects] = useState<Subject[]>([])
     const [questions, setQuestions] = useState<Question[]>([])
