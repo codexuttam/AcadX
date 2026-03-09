@@ -436,6 +436,8 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
     const [form, setForm] = useState({ title: '', description: '', subjectId: '', codeSnippet: '', image: '' })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [aiLoading, setAiLoading] = useState(false)
+    const [suggestion, setSuggestion] = useState<{ title?: string; description?: string } | null>(null)
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -490,12 +492,45 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
 
                     <div>
                         <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 500 }}>Question Title *</label>
-                        <input className="input" placeholder="What is your doubt? (short and clear)" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required maxLength={200} />
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <input className="input" placeholder="What is your doubt? (short and clear)" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required maxLength={200} />
+                            <button type="button" onClick={async () => {
+                                // call enhancement API
+                                setAiLoading(true)
+                                setSuggestion(null)
+                                try {
+                                    const res = await fetch('/api/ai/enhance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: form.title, description: form.description, codeSnippet: form.codeSnippet }) })
+                                    const data = await res.json()
+                                    if (data.ok) {
+                                        setSuggestion(data.enhanced)
+                                    } else {
+                                        setError(data.error || 'Enhancement failed')
+                                    }
+                                } catch (e: any) {
+                                    setError(e?.message || 'Network error')
+                                } finally {
+                                    setAiLoading(false)
+                                }
+                            }} className="btn btn-ghost" style={{ whiteSpace: 'nowrap' }} disabled={aiLoading} title="Auto-enhance title & description">{aiLoading ? 'Enhancing...' : '✨ Enhance'}</button>
+                        </div>
                     </div>
 
                     <div>
                         <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 500 }}>Description *</label>
                         <textarea className="input" placeholder="Explain your doubt in detail. What have you tried? What error are you getting?" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} required rows={4} />
+                        {suggestion && (
+                            <div style={{ marginTop: '0.6rem', border: '1px dashed var(--border-light)', padding: '0.6rem', borderRadius: '8px', background: 'var(--bg-secondary)' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                    <div style={{ fontWeight: 700 }}>AI Suggestion</div>
+                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                        <button type="button" onClick={() => { setForm(f => ({ ...f, title: suggestion.title || f.title, description: suggestion.description || f.description })); setSuggestion(null); }} className="btn btn-primary">Apply</button>
+                                        <button type="button" onClick={() => setSuggestion(null)} className="btn btn-ghost">Dismiss</button>
+                                    </div>
+                                </div>
+                                <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}><strong>Title:</strong> {suggestion.title}</div>
+                                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}><strong>Description:</strong>\n{suggestion.description}</div>
+                            </div>
+                        )}
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>

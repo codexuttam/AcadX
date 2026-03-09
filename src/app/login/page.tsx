@@ -19,6 +19,7 @@ function LoginContent() {
 
     const [mode, setMode] = useState<'login' | 'register'>(registerMode ? 'register' : 'login')
     const [loading, setLoading] = useState(false)
+    const [navigating, setNavigating] = useState(false)
     const [error, setError] = useState('')
     const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 })
     const cardRef = useRef<HTMLDivElement>(null)
@@ -85,6 +86,7 @@ function LoginContent() {
             const data = await res.json()
             if (!res.ok) { setError(data.error || 'Something went wrong'); return }
 
+            setNavigating(true)
             if (data.user?.role === 'admin') { router.push('/admin'); return }
             router.push('/feed')
             router.refresh()
@@ -97,6 +99,21 @@ function LoginContent() {
 
     return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', perspective: '1000px' }}>
+            {/* Full-screen instant loading overlay */}
+            {navigating && (
+                <div style={{
+                    position: 'fixed', inset: 0, zIndex: 9999,
+                    background: 'var(--bg-primary)',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    animation: 'fadeIn 0.15s ease-out'
+                }}>
+                    <div className="spinner-3d" />
+                    <div style={{ marginTop: '1.5rem', fontSize: '1rem', fontWeight: 600, color: 'var(--text-secondary)', animation: 'fadeIn 0.3s ease-out' }}>
+                        Logging you in...
+                    </div>
+                </div>
+            )}
+
             {/* Background gradient */}
             <div style={{ position: 'fixed', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, rgba(108,99,255,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(168,85,247,0.05) 0%, transparent 60%)', pointerEvents: 'none' }} />
 
@@ -183,8 +200,8 @@ function LoginContent() {
                                 </div>
                             )}
 
-                            <button type="submit" className="btn btn-primary" disabled={loading || otpLoading} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.95rem', marginTop: '0.5rem' }}>
-                                {loading || otpLoading ? <div className="spinner" /> :
+                            <button type="submit" className="btn btn-primary" disabled={loading || otpLoading || navigating} style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.95rem', marginTop: '0.5rem' }}>
+                                {loading || otpLoading || navigating ? <div className="spinner" /> :
                                     mode === 'login' ? 'Sign In to AcadX' :
                                         otpSent ? 'Verify & Register' : 'Next: Get OTP'}
                             </button>
