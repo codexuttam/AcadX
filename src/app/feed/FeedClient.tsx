@@ -198,7 +198,7 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                             <div style={{ position: 'absolute', left: 8, bottom: '56px', width: 220, background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12, boxShadow: '0 6px 20px rgba(0,0,0,0.6)', padding: '0.5rem', zIndex: 200 }}>
                                 {user.role === 'professor' && (
                                     <button onClick={() => { setShowProfileMenu(false); router.push('/feed?filter=unanswered') }} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', width: '100%', textAlign: 'left', padding: '0.6rem 0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 700, borderRadius: 8 }}>
-                                        <span style={{ display: 'inline-flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: 'white', fontSize: '0.9rem' }}>✍️</span>
+                                        <span style={{ display: 'inline-flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: 'linear-gradient(135deg, var(--accent), var(--success))', color: 'white', fontSize: '0.9rem' }}>✍️</span>
                                         Answer Doubts
                                     </button>
                                 )}

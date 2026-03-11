@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award } from 'lucide-react'
+import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award, Sun, Moon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ENGINEERING_FACTS } from '@/data/facts'
 
@@ -19,7 +19,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
         cursor: 'pointer',
         transition: 'all 0.3s ease',
         border: isOpen ? '1px solid var(--accent)' : '1px solid var(--border-light)',
-        background: isOpen ? 'rgba(108, 99, 255, 0.05)' : 'var(--bg-card)'
+        background: isOpen ? 'rgba(46, 96, 79, 0.05)' : 'var(--bg-card)'
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -136,8 +136,8 @@ function DraggableTeacher() {
           height: '100%',
           borderRadius: '30px',
           overflow: 'hidden',
-          border: '2px solid rgba(168, 85, 247, 0.3)',
-          background: '#0a0a0a',
+          border: '2px solid var(--prof-border)',
+          background: 'var(--bg-secondary)',
           position: 'relative',
           zIndex: 2
         }}>
@@ -174,9 +174,16 @@ export default function LandingPage() {
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 })
+  const [theme, setTheme] = useState('light')
+  const [latestDoubt, setLatestDoubt] = useState<any>(null)
   const heroRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Check initial theme from document class
+    if (typeof document !== 'undefined') {
+      setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+    }
+
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
 
@@ -204,6 +211,19 @@ export default function LandingPage() {
     }
     checkAuth()
 
+    const fetchLatest = async () => {
+      try {
+        const res = await fetch('/api/questions?limit=1')
+        if (res.ok) {
+          const data = await res.json()
+          if (data.questions && data.questions.length > 0) {
+            setLatestDoubt(data.questions[0])
+          }
+        }
+      } catch (e) { }
+    }
+    fetchLatest()
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [router])
 
@@ -215,24 +235,40 @@ export default function LandingPage() {
     setHoverPos({ x, y })
   }
 
+  const toggleTheme = () => {
+    if (typeof document !== 'undefined') {
+      const isDark = document.documentElement.classList.contains('dark')
+      if (isDark) {
+        document.documentElement.classList.remove('dark')
+        setTheme('light')
+      } else {
+        document.documentElement.classList.add('dark')
+        setTheme('dark')
+      }
+    }
+  }
+
   return (
     <div style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Navbar */}
       <nav style={{
         position: 'fixed', top: 0, width: '100%', zIndex: 100,
         padding: '1.25rem 2rem', transition: 'all 0.3s ease',
-        background: scrolled ? 'rgba(0,0,0,0.8)' : 'transparent',
+        background: scrolled ? 'var(--nav-scrolled-bg)' : 'transparent',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border-light)' : 'none'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ position: 'relative', width: 40, height: 40, overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: 40, height: 40, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '8px', padding: '4px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background-color 0.5s ease, border-color 0.5s ease' }}>
               <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
             </div>
-            <span style={{ fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+            <span style={{ fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <button onClick={toggleTheme} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '50%', transition: 'background 0.2s' }} className="hover:bg-gray-200/20 dark:hover:bg-gray-700/50">
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
             <Link href="/login" className="btn btn-ghost" style={{ fontSize: '0.85rem' }}>Login</Link>
             <Link href="/login?register=true" className="btn btn-primary" style={{ fontSize: '0.85rem', boxShadow: '0 0 15px var(--accent-glow)' }}>Join Now</Link>
           </div>
@@ -242,7 +278,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header ref={heroRef} onMouseMove={handleMouseMove} style={{
         padding: '12rem 2rem 8rem', textAlign: 'center', position: 'relative',
-        overflow: 'hidden', background: '#000'
+        overflow: 'hidden', background: 'transparent'
       }}>
         <div className="hero-4d-bg" />
         <div className="hero-layer" />
@@ -273,8 +309,8 @@ export default function LandingPage() {
           <div className="glass tilt-3d glow-card" style={{
             padding: '2.5rem', borderRadius: '32px', width: '400px',
             transform: `perspective(1200px) rotateX(${(hoverPos.y - 0.5) * 15}deg) rotateY(${(hoverPos.x - 0.5) * 15}deg)`,
-            boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.8)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 20px 60px -10px var(--shadow-color)',
+            border: '1px solid var(--border-shadow-color)',
             backdropFilter: 'blur(30px)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
@@ -282,29 +318,41 @@ export default function LandingPage() {
                 <div className="live-indicator"></div>
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#10b981', letterSpacing: '0.1em' }}>LIVE FEED</span>
               </div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>SEC_CODE: 0x42F</div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{latestDoubt ? new Date(latestDoubt.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'JUST NOW'}</div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div className="avatar" style={{ border: '2px solid var(--accent)' }}>A</div>
+              <div className="avatar" style={{ border: '2px solid var(--accent)' }}>{latestDoubt ? latestDoubt.student.name.charAt(0).toUpperCase() : 'A'}</div>
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontWeight: 800, fontSize: '1rem' }}>Anushka S.</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Senior • CSE Department</div>
+                <div style={{ fontWeight: 800, fontSize: '1rem' }}>{latestDoubt ? latestDoubt.student.name : 'Anushka S.'}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{latestDoubt ? `Student • ${latestDoubt.student.department || 'Engineering'}` : 'Senior • CSE Department'}</div>
               </div>
             </div>
 
-            <h3 style={{ textAlign: 'left', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem', lineHeight: 1.4 }}>Deriving the boundary conditions for a perfect conductor in EM fields?</h3>
+            <h3 style={{ textAlign: 'left', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem', lineHeight: 1.4 }}>{latestDoubt ? latestDoubt.title : 'Deriving the boundary conditions for a perfect conductor in EM fields?'}</h3>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <div className="tag" style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>Electromagnetics</div>
-              <div className="tag" style={{ background: 'rgba(168, 85, 247, 0.1)', color: '#a855f7', fontSize: '0.65rem' }}>Maxwells_Eq</div>
+              <div className="tag" style={{ background: 'rgba(var(--tag-bg-blue), 0.1)', color: '#38bdf8', fontSize: '0.65rem' }}>{latestDoubt ? latestDoubt.subject.name : 'Electromagnetics'}</div>
+              {!latestDoubt && <div className="tag" style={{ background: 'rgba(var(--tag-bg), 0.1)', color: 'var(--accent)', fontSize: '0.65rem' }}>Maxwells_Eq</div>}
             </div>
 
-            <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-light)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <CheckCircle size={16} color="var(--success)" />
-                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Verified Resolution</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem', textAlign: 'left' }}>Professor Rajesh validated this analytical derivation on 08.03.2026</p>
+            <div style={{ marginTop: '2.5rem', padding: '1.25rem', background: 'var(--monitor-bg)', borderRadius: '16px', border: '1px solid var(--border-light)' }}>
+              {latestDoubt?.answers && latestDoubt.answers.length > 0 ? (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <CheckCircle size={16} color="var(--success)" />
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Resolution Provided</span>
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem', textAlign: 'left' }}>By {latestDoubt.answers[0].professor.name} on {new Date(latestDoubt.answers[0].createdAt).toLocaleDateString()}</p>
+                </>
+              ) : (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    {latestDoubt ? <MessageSquare size={16} color="var(--warning)" /> : <CheckCircle size={16} color="var(--success)" />}
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{latestDoubt ? 'Awaiting Resolution' : 'Verified Resolution'}</span>
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem', textAlign: 'left' }}>{latestDoubt ? 'Our experts are working on this doubt currently.' : 'Professor Rajesh validated this analytical derivation on 08.03.2026'}</p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -344,7 +392,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* Institutional Directives (Formerly How It Works) */}
-      <section id="pulse" style={{ padding: '8rem 2rem', background: '#020202', position: 'relative', overflow: 'hidden' }}>
+      <section id="pulse" style={{ padding: '8rem 2rem', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-bg" />
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
@@ -371,7 +419,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section style={{ padding: '8rem 2rem', background: '#000' }}>
+      <section style={{ padding: '8rem 2rem', background: 'transparent' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', alignItems: 'center' }}>
             <div style={{ flex: '1 1 400px' }}>
@@ -401,7 +449,7 @@ export default function LandingPage() {
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Active Resolve Rate</div>
               </div>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', marginTop: '2rem' }}>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#a855f7' }}>24+</div>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent)' }}>24+</div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Verified Faculty Members</div>
               </div>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', gridColumn: 'span 2' }}>
@@ -444,7 +492,7 @@ export default function LandingPage() {
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Each verified resolution counts towards formal institutional contribution metrics.</p>
                 </div>
                 <div>
-                  <div style={{ color: '#a855f7', marginBottom: '0.75rem' }}><Star size={24} /></div>
+                  <div style={{ color: 'var(--accent)', marginBottom: '0.75rem' }}><Star size={24} /></div>
                   <h4 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>Tiered Compensation</h4>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Expert solvers are eligible for performance-based compensation and research grants.</p>
                 </div>
@@ -453,7 +501,7 @@ export default function LandingPage() {
           </div>
           <div style={{ flex: '1 1 300px', textAlign: 'center' }}>
             <DraggableTeacher />
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '1.5rem', color: 'white' }}>For the Educators</h3>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '1.5rem', color: 'var(--text-primary)' }}>For the Educators</h3>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Building the future of peer-to-peer engineering education, one verified answer at a time.</p>
             <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginTop: '1rem', fontStyle: 'italic' }}>Drag or click the Prof for some &apos;Academic Rizz&apos; facts. 👆</p>
           </div>
@@ -463,18 +511,18 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* Impact Section */}
-      <section style={{ padding: '8rem 2rem', textAlign: 'center', background: '#000' }}>
+      <section style={{ padding: '8rem 2rem', textAlign: 'center', background: 'transparent' }}>
         <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '4rem', color: 'var(--text-muted)', letterSpacing: '0.3em' }}>
           GLOBAL NETWORK PARAMETERS
         </h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'center', maxWidth: '1100px', margin: '0 auto' }}>
           {[
             { num: "92.4%", label: "ANALYTICAL RESOLVE RATE", accent: "var(--accent)" },
-            { num: "1.2K", label: "VERIFIED FACULTY NODE", accent: "#a855f7" },
+            { num: "1.2K", label: "VERIFIED FACULTY NODE", accent: "var(--accent)" },
             { num: "REAL-TIME", label: "NETWORK UPTIME", accent: "var(--success)" }
           ].map((stat, i) => (
             <div key={i} style={{ flex: '1 1 250px' }}>
-              <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', letterSpacing: '-0.04em', marginBottom: '0.5rem' }}>{stat.num}</div>
+              <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.04em', marginBottom: '0.5rem' }}>{stat.num}</div>
               <div style={{ color: stat.accent, fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.15em' }}>{stat.label}</div>
             </div>
           ))}
@@ -482,7 +530,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" style={{ padding: '6rem 2rem', background: '#000' }}>
+      <section id="faq" style={{ padding: '6rem 2rem', background: 'transparent' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>Frequently Asked Questions</h2>
@@ -517,14 +565,14 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border-light)', background: '#000' }}>
+      <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border-light)', background: 'transparent' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between' }}>
           <div style={{ maxWidth: '300px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-              <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden' }}>
+              <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '6px', padding: '4px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background-color 0.5s ease, border-color 0.5s ease' }}>
                 <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
               </div>
-              <span style={{ fontSize: '1.25rem', fontWeight: '900', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+              <span style={{ fontSize: '1.25rem', fontWeight: '900', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>The academic layer for engineers. Built by students, for students, with support from professors.</p>
           </div>

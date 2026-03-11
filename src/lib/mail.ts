@@ -26,9 +26,9 @@ export async function sendOTP(email: string, otp: string) {
             text: `Your verification code is: ${otp}. This code expires in 10 minutes.`,
             html: `
                 <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                    <h2 style="color: #6c63ff;">AcadX Verification</h2>
+                    <h2 style="color: #2c5949;">AcadX Verification</h2>
                     <p>Your verification code for signing up is:</p>
-                    <div style="font-size: 24px; font-weight: bold; color: #6c63ff; padding: 10px; background: #f4f4f4; border-radius: 5px; display: inline-block;">
+                    <div style="font-size: 24px; font-weight: bold; color: #2c5949; padding: 10px; background: #f4f4f4; border-radius: 5px; display: inline-block;">
                         ${otp}
                     </div>
                     <p>This code will expire in 10 minutes.</p>

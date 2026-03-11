@@ -115,16 +115,16 @@ function LoginContent() {
             )}
 
             {/* Background gradient */}
-            <div style={{ position: 'fixed', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, rgba(108,99,255,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(168,85,247,0.05) 0%, transparent 60%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'fixed', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, var(--border-light) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, var(--border-shadow-color) 0%, transparent 60%)', pointerEvents: 'none' }} />
 
             <div style={{ width: '100%', maxWidth: '420px', position: 'relative' }}>
                 {/* Logo */}
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                        <div style={{ position: 'relative', width: 48, height: 48, overflow: 'hidden' }}>
+                        <div style={{ position: 'relative', width: 48, height: 48, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '10px', padding: '6px' }}>
                             <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
                         </div>
-                        <span style={{ fontSize: '2rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, #fff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+                        <span style={{ fontSize: '2rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@ function LoginContent() {
                             )}
 
                             {error && (
-                                <div style={{ padding: '0.75rem 1rem', background: 'rgba(244,33,46,0.1)', border: '1px solid var(--danger)', borderRadius: '8px', color: 'var(--danger)', fontSize: '0.85rem' }}>
+                                <div style={{ padding: '0.75rem 1rem', background: 'var(--toast-error-bg)', border: '1px solid var(--danger)', borderRadius: '8px', color: 'var(--danger)', fontSize: '0.85rem' }}>
                                     {error}
                                 </div>
                             )}
