@@ -1,43 +1,45 @@
 'use client'
 
-import React from 'react'
+import { motion } from 'framer-motion'
+import { Shield, Lock, Scale, Layers, CheckCircle2 } from 'lucide-react'
 import InfoLayout from '@/components/InfoLayout'
 
 export default function RulesPage() {
     return (
         <InfoLayout
             title="Community Rules"
-            subtitle="Treat others with respect. Follow the code of conduct. 🔥"
+            subtitle="The fundamental code of conduct for institutional collaboration and resolution integrity."
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', fontWeight: 500 }}>
-                    We're here to help each other grow. No toxicity, no spam, no BS. Just academic rizz and high-quality vibes.
-                </p>
-
-                <div className="card" style={{ padding: '2.5rem', border: '1px solid var(--border-light)', background: 'var(--bg-card)' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                        {[
-                            { title: "No Cap, Be Honest", desc: "Don't post generative AI answers without verification. If you don't know it, don't guess it. Respect the grind of those who study." },
-                            { title: "Stay Respectful", desc: "Don't flame people for having 'stupid' doubts. We've all been there. Be the helpful main character." },
-                            { title: "No Academic Dishonesty", desc: "AcadX is for clearing doubts, not for cheating on your exams. We're here for the learning, not the shortcut." },
-                            { title: "Clean Content", desc: "Keep it professional. No NSFW, no offensive slurs, no toxic behavior. One strike and you're out." },
-                            { title: "Subject Focus", desc: "Don't post off-topic rants in the doubt feed. We have social media for that. Keep the workspace clean." }
-                        ].map((rule, i) => (
-                            <div key={i} style={{ display: 'flex', gap: '1.5rem', borderBottom: i === 4 ? 'none' : '1px solid var(--border-light)', paddingBottom: '1.5rem' }}>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--accent)', minWidth: 40 }}>0{i + 1}</div>
-                                <div>
-                                    <h4 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: '0.5rem' }}>{rule.title}</h4>
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.6 }}>{rule.desc}</p>
-                                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    {[
+                        { title: "Verifiable Accuracy", icon: <CheckCircle2 size={24} />, desc: "Do not disseminate AI-generated content without rigorous individual verification. Respect the intellectual integrity of the grid." },
+                        { title: "Protocol Decorum", icon: <Shield size={24} />, desc: "Maintain absolute professional decorum. Constructive criticism only. Aggressive behaviors result in immediate lockout." },
+                        { title: "Academic Integrity", icon: <Lock size={24} />, desc: "AcadX is a resolution hub, not a circumvention utility. Use it to expand knowledge, not to automate shortcuts." },
+                        { title: "Grid Standards", icon: <Scale size={24} />, desc: "The platform maintains engineering-grade standards. Offensive or irrelevant data nodes will be purged on detection." },
+                        { title: "Subject Relevance", icon: <Layers size={24} />, desc: "Initialize doubts only within their designated infrastructures. Keep the collaborative workspace logically filtered." }
+                    ].map((rule, i) => (
+                        <motion.div
+                            key={i}
+                            whileHover={{ x: 10, background: 'rgba(255,255,255,0.02)' }}
+                            style={{ display: 'flex', gap: '2rem', background: 'rgba(0,0,0,0.2)', padding: '2.5rem', borderRadius: '28px', border: '1px solid var(--border-light)', transition: 'all 0.2s' }}
+                        >
+                            <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--accent-glow)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
+                                {rule.icon}
                             </div>
-                        ))}
-                    </div>
+                            <div>
+                                <h4 style={{ fontWeight: 950, fontSize: '1.4rem', marginBottom: '0.6rem', color: 'white', letterSpacing: '-0.02em' }}>{rule.title}</h4>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, fontWeight: 500 }}>{rule.desc}</p>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
 
-                <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Breaking rules leads to an immediate ban from the platform. No exceptions. 🛑</p>
+                <div style={{ textAlign: 'center', marginTop: '1rem', padding: '1.5rem', border: '1px dashed var(--danger)', borderRadius: '20px', color: 'var(--danger)', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.1em', background: 'rgba(239, 68, 68, 0.05)' }}>
+                    VIOLATION DETECTION TRIGGERS IMMEDIATE AND PERMANENT DE-SYNCHRONIZATION.
                 </div>
             </div>
         </InfoLayout>
     )
 }
+

@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import InfoLayout from '@/components/InfoLayout'
-import { X, Send, CheckCircle } from 'lucide-react'
+import { X, Send, CheckCircle, Layers, HelpCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export default function SupportPage() {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -21,34 +22,44 @@ export default function SupportPage() {
 
     return (
         <InfoLayout
-            title="Contact Support"
-            subtitle="Got a problem? Don't leave it to the gods. ✨"
+            title="Resolution Support"
+            subtitle="Initiate a technical support protocol for system-wide resolution."
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', lineHeight: 1.6 }}>
-                    Whether it's a bug in our code, a toxic user in the feed, or you just want to say hi, our team is always on standby for you.
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', lineHeight: 1.7, textAlign: 'center', maxWidth: '700px', margin: '0 auto', fontWeight: 500 }}>
+                    Whether it's an architectural bug in the grid, an unauthorized user presence, or a general synchronization query, our technical squad is on standby.
                 </p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-                    <div className="card" style={{ padding: '2rem', background: 'rgba(108, 99, 255, 0.05)', border: '1px solid var(--accent-glow)' }}>
-                        <h3 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '0.75rem', color: 'var(--accent)' }}>Email Us</h3>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1rem' }}>We usually reply within 24 hours. No cap.</p>
-                        <a href="mailto:supportacadx@gmail.com" style={{ color: 'white', fontWeight: 700, fontSize: '1.1rem', textDecoration: 'none', borderBottom: '2px solid var(--accent)' }}>supportacadx@gmail.com</a>
-                    </div>
-                    <div className="card" style={{ padding: '2rem', background: 'rgba(168, 85, 247, 0.05)', border: '1px solid rgba(168, 85, 247, 0.2)' }}>
-                        <h3 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '0.75rem', color: '#a855f7' }}>Bug Report</h3>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1rem' }}>Found something broken? Help us fix it and earn extra points.</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
+                    <motion.div whileHover={{ y: -12 }} className="card glass animate-fadeIn" style={{ padding: '3rem 2.5rem', background: 'rgba(108, 99, 255, 0.04)', border: '1px solid var(--accent)', borderRadius: '32px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
+                        <div style={{ width: 64, height: 64, borderRadius: '20px', background: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', boxShadow: '0 10px 30px var(--accent-glow)' }}>
+                            <Send size={30} />
+                        </div>
+                        <h3 style={{ fontWeight: 950, fontSize: '1.5rem', marginBottom: '0.75rem', color: 'white', letterSpacing: '-0.02em' }}>Direct Transmission</h3>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>Formal queries typically processed within a single deployment cycle.</p>
+                        <a href="mailto:supportacadx@gmail.com" style={{ display: 'block', background: 'var(--accent)', color: 'white', padding: '1.25rem', borderRadius: '16px', fontWeight: 900, textDecoration: 'none', fontSize: '1.1rem', boxShadow: '0 8px 25px rgba(0,0,0,0.4)', transition: 'all 0.2s', letterSpacing: '0.05em' }}>supportacadx@gmail.com</a>
+                    </motion.div>
+
+                    <motion.div whileHover={{ y: -12 }} className="card glass animate-fadeIn" style={{ padding: '3rem 2.5rem', background: 'rgba(168, 85, 247, 0.04)', border: '1px solid #a855f7', borderRadius: '32px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
+                        <div style={{ width: 64, height: 64, borderRadius: '20px', background: '#a855f7', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', boxShadow: '0 10px 30px rgba(168, 85, 247, 0.3)' }}>
+                            <Layers size={30} />
+                        </div>
+                        <h3 style={{ fontWeight: 950, fontSize: '1.5rem', marginBottom: '0.75rem', color: 'white', letterSpacing: '-0.02em' }}>Resolution Ticket</h3>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>Report architectural leaks and earn verified contributor credits in the grid.</p>
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            style={{ background: 'none', border: 'none', padding: 0, color: 'white', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer', borderBottom: '2px solid #a855f7' }}
+                            style={{ width: '100%', background: '#a855f7', border: 'none', color: 'white', padding: '1.25rem', borderRadius: '16px', fontWeight: 900, fontSize: '1.1rem', cursor: 'pointer', boxShadow: '0 8px 25px rgba(0,0,0,0.4)', transition: 'all 0.2s', letterSpacing: '0.05em' }}
                         >
-                            Submit a Ticket
+                            Open System Ticket
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
 
-                <div style={{ padding: '2rem', background: 'var(--bg-secondary)', borderRadius: '16px', border: '1px solid var(--border-light)' }}>
-                    <h4 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '1.25rem' }}>Frequently Asked</h4>
+                <div style={{ padding: '3rem', background: 'rgba(0,0,0,0.3)', borderRadius: '32px', border: '1px solid var(--border-light)', backdropFilter: 'blur(20px)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem', color: 'var(--accent)' }}>
+                        <HelpCircle size={22} />
+                        <h4 style={{ fontWeight: 900, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Frequented Resolution Cycles</h4>
+                    </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {[
                             { q: "How do I change my department?", a: "Go to your profile settings from the doubt feed sidebar." },
