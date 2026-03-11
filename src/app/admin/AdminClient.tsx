@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Sun, Moon, LayoutGrid, Users, BookOpen, LogOut, ShieldCheck, ChevronRight, Menu, X } from 'lucide-react'
 import { TokenPayload } from '@/lib/jwt'
 
 interface DbUser { id: string; name: string; email: string; role: string; department: string; verified: boolean; createdAt: string }
@@ -23,6 +24,27 @@ export default function AdminClient({ adminUser }: { adminUser: TokenPayload }) 
     const [toast, setToast] = useState<{ msg: string; type: string } | null>(null)
     const [newSubject, setNewSubject] = useState({ name: '', color: SUBJECT_COLORS[0], icon: SUBJECT_ICONS[0] })
     const [subjectLoading, setSubjectLoading] = useState(false)
+    const [theme, setTheme] = useState('light')
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    useEffect(() => {
+        if (typeof document !== 'undefined') {
+            setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+        }
+    }, [])
+
+    const toggleTheme = () => {
+        if (typeof document !== 'undefined') {
+            const isDark = document.documentElement.classList.contains('dark')
+            if (isDark) {
+                document.documentElement.classList.remove('dark')
+                setTheme('light')
+            } else {
+                document.documentElement.classList.add('dark')
+                setTheme('dark')
+            }
+        }
+    }
 
     const showToast = (msg: string, type = 'success') => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000) }
 
@@ -116,19 +138,39 @@ export default function AdminClient({ adminUser }: { adminUser: TokenPayload }) 
     return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
             {/* Top nav */}
-            <div style={{ background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border-light)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 10 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                        <div style={{ width: 32, height: 32, background: 'var(--accent)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>⚡</div>
-                        <span style={{ fontSize: '1.1rem', fontWeight: '900', letterSpacing: '-0.03em' }}>AcadX Admin</span>
-                    </div>
-                    <span className="tag" style={{ background: 'rgba(217,70,239,0.15)', color: '#d946ef', fontSize: '0.72rem' }}>👑 Dean Access</span>
-                </div>
+            <nav style={{ background: 'var(--nav-scrolled-bg)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border-light)', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <Link href="/feed" className="btn btn-ghost" style={{ fontSize: '0.85rem', padding: '0.4rem 0.85rem' }}>← View Feed</Link>
-                    <button onClick={logout} className="btn btn-outline" style={{ fontSize: '0.85rem', padding: '0.4rem 0.85rem' }}>Sign Out</button>
+                    <div style={{ width: 36, height: 36, background: 'var(--accent)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', boxShadow: '0 4px 12px var(--accent-glow)' }}>🎓</div>
+                    <span style={{ fontSize: '1.25rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} className="desktop-only">AcadX Admin</span>
                 </div>
-            </div>
+
+                <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <button onClick={toggleTheme} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', transition: 'all 0.2s' }}>
+                        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                    </button>
+                    <Link href="/feed" className="btn btn-ghost" style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <LayoutGrid size={16} /> Feed
+                    </Link>
+                    <button onClick={logout} className="btn btn-outline" style={{ fontSize: '0.85rem', color: 'var(--danger)', borderColor: 'var(--danger)', opacity: 0.8 }} title="Sign Out">
+                        <LogOut size={16} />
+                    </button>
+                </div>
+
+                <button className="mobile-only" onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)' }}>
+                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </nav>
+
+            {/* Mobile Nav Dropdown */}
+            {isMenuOpen && (
+                <div className="mobile-only" style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border-light)', padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', position: 'sticky', top: '60px', zIndex: 90 }}>
+                    <Link href="/feed" className="btn btn-ghost" style={{ justifyContent: 'flex-start' }}><LayoutGrid size={18} /> View Feed</Link>
+                    <button onClick={toggleTheme} className="btn btn-ghost" style={{ justifyContent: 'flex-start' }}>
+                        {theme === 'dark' ? <><Sun size={18} /> Light Mode</> : <><Moon size={18} /> Dark Mode</>}
+                    </button>
+                    <button onClick={logout} className="btn btn-outline" style={{ color: 'var(--danger)', borderColor: 'var(--danger)', justifyContent: 'flex-start' }}><LogOut size={18} /> Sign Out</button>
+                </div>
+            )}
 
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem 1.5rem' }}>
                 {/* Welcome */}
@@ -139,7 +181,7 @@ export default function AdminClient({ adminUser }: { adminUser: TokenPayload }) 
 
                 {/* Stats */}
                 {stats && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
                         {[
                             { label: 'Total Users', value: stats.users, icon: '👥' },
                             { label: 'Questions Asked', value: stats.questions, icon: '❓' },
@@ -149,20 +191,20 @@ export default function AdminClient({ adminUser }: { adminUser: TokenPayload }) 
                             <div key={s.label} className="stat-card">
                                 <div style={{ fontSize: '1.75rem', marginBottom: '0.4rem' }}>{s.icon}</div>
                                 <div className="stat-number">{s.value}</div>
-                                <div className="stat-label">{s.label}</div>
+                                <div className="stat-label" style={{ fontSize: '0.75rem' }}>{s.label}</div>
                             </div>
                         ))}
                     </div>
                 )}
 
                 {/* Tabs */}
-                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', background: 'var(--bg-card)', padding: '4px', borderRadius: '12px', width: 'fit-content', border: '1px solid var(--border-light)' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.5rem', background: 'var(--bg-card)', padding: '4px', borderRadius: '12px', width: 'fit-content', border: '1px solid var(--border-light)', maxWidth: '100%', overflowX: 'auto', whiteSpace: 'nowrap', scrollbarWidth: 'none' }}>
                     {([
                         { key: 'overview', label: '📊 Overview' },
-                        { key: 'users', label: '👥 Manage Users' },
+                        { key: 'users', label: '👥 Users' },
                         { key: 'subjects', label: '📚 Subjects' },
                     ] as const).map(t => (
-                        <button key={t.key} onClick={() => setTab(t.key)} style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem', transition: 'all 0.2s', background: tab === t.key ? 'var(--accent)' : 'transparent', color: tab === t.key ? '#fff' : 'var(--text-secondary)' }}>
+                        <button key={t.key} onClick={() => setTab(t.key)} style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', transition: 'all 0.2s', background: tab === t.key ? 'var(--accent)' : 'transparent', color: tab === t.key ? '#fff' : 'var(--text-secondary)' }}>
                             {t.label}
                         </button>
                     ))}

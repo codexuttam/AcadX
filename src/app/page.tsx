@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award, Sun, Moon } from 'lucide-react'
+import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award, Sun, Moon, Menu, X, ShieldCheck, Users, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ENGINEERING_FACTS } from '@/data/facts'
 
@@ -175,6 +175,7 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false)
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 })
   const [theme, setTheme] = useState('light')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [latestDoubt, setLatestDoubt] = useState<any>(null)
   const heroRef = useRef<HTMLDivElement>(null)
 
@@ -251,28 +252,70 @@ export default function LandingPage() {
   return (
     <div style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Navbar */}
+      {/* Navbar */}
       <nav style={{
         position: 'fixed', top: 0, width: '100%', zIndex: 100,
-        padding: '1.25rem 2rem', transition: 'all 0.3s ease',
+        padding: '1rem 2rem', transition: 'all 0.3s ease',
         background: scrolled ? 'var(--nav-scrolled-bg)' : 'transparent',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--border-light)' : 'none'
+        borderBottom: scrolled ? '1px solid var(--border-light)' : (theme === 'dark' ? 'none' : 'none')
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ position: 'relative', width: 40, height: 40, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '8px', padding: '4px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background-color 0.5s ease, border-color 0.5s ease' }}>
+            <div style={{ position: 'relative', width: 40, height: 40, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '10px', padding: '5px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', transition: 'all 0.5s ease' }}>
               <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
             </div>
-            <span style={{ fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+            <span style={{ fontSize: '1.5rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <button onClick={toggleTheme} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '50%', transition: 'background 0.2s' }} className="hover:bg-gray-200/20 dark:hover:bg-gray-700/50">
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+
+          {/* Desktop Nav */}
+          <div className="desktop-only" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <button onClick={toggleTheme} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: '10px', transition: 'all 0.2s' }}>
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <Link href="/login" className="btn btn-ghost" style={{ fontSize: '0.85rem' }}>Login</Link>
-            <Link href="/login?register=true" className="btn btn-primary" style={{ fontSize: '0.85rem', boxShadow: '0 0 15px var(--accent-glow)' }}>Join Now</Link>
+            <Link href="/login" className="btn btn-ghost" style={{ fontSize: '0.9rem' }}>Login</Link>
+            <Link href="/login?register=true" className="btn btn-primary" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem', borderRadius: '10px' }}>Join Now</Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button className="mobile-only" onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', color: 'var(--text-primary)', width: 40, height: 40, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
+
+        {/* Mobile Dropdown */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              style={{
+                position: 'absolute', top: '100%', left: 0, width: '100%',
+                background: 'var(--bg-card)', borderBottom: '1px solid var(--border-light)',
+                padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem',
+                backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+              }}
+            >
+              <div style={{ height: '1px', background: 'var(--border-light)', margin: '0.5rem 0' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', padding: '0.5rem 0' }}>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <ShieldCheck size={18} /> Dean Portal
+                </Link>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <BookOpen size={18} /> Faculty Entry
+                </Link>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <Users size={18} /> Student Hub
+                </Link>
+                <button onClick={() => { toggleTheme(); setIsMenuOpen(false); }} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontWeight: 600, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: 0 }}>
+                  {theme === 'dark' ? <><Sun size={18} /> Light Mode</> : <><Moon size={18} /> Dark Mode</>}
+                </button>
+              </div>
+              <div style={{ height: '1px', background: 'var(--border-light)', margin: '0.5rem 0' }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
@@ -296,12 +339,13 @@ export default function LandingPage() {
           <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto 3.5rem', lineHeight: 1.7, fontWeight: 400 }}>
             An enterprise-level knowledge exchange for technical faculty and verified students. Clear confusion with peer-reviewed derivations and real-time expert oversight.
           </p>
-          <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', marginBottom: '5rem' }}>
             <Link href="/login?register=true" className="btn btn-primary" style={{ padding: '1rem 3rem', fontSize: '1.1rem', fontWeight: 600 }}>
               Initialize Access <ArrowRight size={18} />
             </Link>
             <a href="#pulse" className="btn btn-outline" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>View Directives</a>
           </div>
+
         </div>
 
         {/* 4D Floating System Monitor */}
@@ -566,38 +610,39 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border-light)', background: 'transparent' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between' }}>
-          <div style={{ maxWidth: '300px' }}>
+        <div className="footer-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-              <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '6px', padding: '4px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'background-color 0.5s ease, border-color 0.5s ease' }}>
+              <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '8px', padding: '5px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'all 0.5s ease' }}>
                 <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
               </div>
-              <span style={{ fontSize: '1.25rem', fontWeight: '900', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: '900', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>The academic layer for engineers. Built by students, for students, with support from professors.</p>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: '300px' }}>The academic layer for engineers. Built by students, for students, with support from professors.</p>
           </div>
-          <div style={{ display: 'flex', gap: '4rem', flexWrap: 'wrap' }}>
-            <div>
-              <h4 style={{ fontWeight: 700, marginBottom: '1.25rem', fontSize: '0.9rem' }}>Platform</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                <Link href="/feed">Doubt Feed</Link>
-                <Link href="/ai">Ask Artificial</Link>
-                <Link href="/leaderboard">Leaderboard</Link>
-              </div>
+
+          <div>
+            <h4 style={{ fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem', color: 'var(--text-primary)' }}>Platform</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+              <Link href="/feed">Doubt Feed</Link>
+              <Link href="/ai">Ask Artificial</Link>
+              <Link href="/leaderboard">Leaderboard</Link>
             </div>
-            <div>
-              <h4 style={{ fontWeight: 700, marginBottom: '1.25rem', fontSize: '0.9rem' }}>Resources</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                <Link href="/docs">Documentation</Link>
-                <Link href="/rules">Community Rules</Link>
-                <Link href="/support">Contact Support</Link>
-              </div>
+          </div>
+
+          <div>
+            <h4 style={{ fontWeight: 700, marginBottom: '1.25rem', fontSize: '1rem', color: 'var(--text-primary)' }}>Resources</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+              <Link href="/docs">Documentation</Link>
+              <Link href="/rules">Community Rules</Link>
+              <Link href="/support">Contact Support</Link>
             </div>
           </div>
         </div>
-        <div style={{ maxWidth: '1200px', margin: '2rem auto 0', paddingTop: '2rem', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-          <span>© 2026 AcadX Platform. All rights reserved.</span>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+
+        <div style={{ maxWidth: '1200px', margin: '3rem auto 0', paddingTop: '2rem', borderTop: '1px solid var(--border-light)', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', color: 'var(--text-muted)', fontSize: '0.85rem', textAlign: 'center' }}>
+          <span style={{ width: '100%', marginBottom: '0.5rem' }}>© 2026 AcadX Platform. All rights reserved.</span>
+          <div style={{ display: 'flex', gap: '2rem' }}>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms of Service</Link>
           </div>

@@ -57,6 +57,29 @@ async function main() {
         { name: 'Deep Learning', color: '#d946ef', icon: '🧠' },
         { name: 'Computer Vision', color: '#0ea5e9', icon: '👁️' },
         { name: 'NLP', color: '#22c55e', icon: '💬' },
+        // Essential B.Tech Subjects
+        { name: 'Engineering Physics', color: '#f43f5e', icon: '⚛️' },
+        { name: 'Mathematics-I', color: '#6366f1', icon: '📐' },
+        { name: 'Basic Electrical Engg', color: '#eab308', icon: '💡' },
+        { name: 'Environmental Studies', color: '#10b981', icon: '🌱' },
+        { name: 'Discrete Mathematics', color: '#8b5cf6', icon: '🧩' },
+        { name: 'Computer Architecture', color: '#f97316', icon: '⚙️' },
+        { name: 'Theory of Computation', color: '#ec4899', icon: '📑' },
+        { name: 'Compiler Design', color: '#14b8a6', icon: '🔨' },
+        // Cybersecurity
+        { name: 'Cyber Security', color: '#ef4444', icon: '🛡️' },
+        { name: 'Network Security', color: '#3b82f6', icon: '🔒' },
+        { name: 'Ethical Hacking', color: '#1f2937', icon: '🎩' },
+        { name: 'Cyber Law & Ethics', color: '#0ea5e9', icon: '⚖️' },
+        // Biotechnology
+        { name: 'Cell Biology', color: '#10b981', icon: '🧬' },
+        { name: 'Genetics', color: '#f43f5e', icon: '🧬' },
+        { name: 'Biochemistry', color: '#8b5cf6', icon: '🧪' },
+        { name: 'Bioinformatics', color: '#06b6d4', icon: '💻🧬' },
+        // CSE Core & Advanced
+        { name: 'Software Engineering', color: '#4f46e5', icon: '🏗️' },
+        { name: 'Cloud Computing', color: '#0ea5e9', icon: '☁️' },
+        { name: 'IoT with ML', color: '#14b8a6', icon: '🌐🤖' },
     ]
 
     for (const s of subjects) {

@@ -5,6 +5,32 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { TokenPayload } from '@/lib/jwt'
 import { formatDistanceToNow } from 'date-fns'
+import {
+    ArrowLeft, MessageSquare, Heart, Eye, Sparkles, Quote, CheckCircle2,
+    Terminal, Cpu, Boxes, Coffee, Hash, Brain, Layers, Zap, LayoutGrid, Database, Globe, Network
+} from 'lucide-react'
+import Image from 'next/image'
+
+const SUBJECT_ICON_MAP: Record<string, any> = {
+    'Python': <Terminal size={14} />,
+    'C Programming': <Cpu size={14} />,
+    'C++': <Boxes size={14} />,
+    'Java': <Coffee size={14} />,
+    'MATLAB': <Hash size={14} />,
+    'Machine Learning': <Brain size={14} />,
+    'Data Structures': <Layers size={14} />,
+    'Algorithms': <Zap size={14} />,
+    'Operating Systems': <LayoutGrid size={14} />,
+    'DBMS': <Database size={14} />,
+    'Computer Networks': <Globe size={14} />,
+    'Deep Learning': <Network size={14} />,
+    'Computer Vision': <Eye size={14} />,
+    'NLP': <MessageSquare size={14} />
+}
+
+function SubjectIcon({ name, emoji }: { name: string, emoji: string }) {
+    return SUBJECT_ICON_MAP[name] || <span>{emoji}</span>
+}
 
 interface User { id: string; name: string; role: string; verified: boolean; department: string }
 interface Answer { id: string; text: string; codeSnippet?: string; upvotes: number; isBest: boolean; createdAt: string; professor: User }
@@ -87,13 +113,21 @@ export default function QuestionDetailClient({ questionId, user }: { questionId:
     return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
             {/* Top nav */}
-            <div style={{ position: 'sticky', top: 0, background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border-light)', padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', zIndex: 10 }}>
-                <button onClick={() => router.back()} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 500 }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            <nav style={{ position: 'sticky', top: 0, background: 'var(--nav-scrolled-bg)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border-light)', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 100 }}>
+                <button onClick={() => router.back()} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 600, padding: '0.4rem 0.8rem', borderRadius: '10px', transition: 'all 0.2s' }} className="hover:scale-105">
+                    <ArrowLeft size={16} />
                     Back
                 </button>
-                <span style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>⚡ AcadX</span>
-            </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ position: 'relative', width: 32, height: 32, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '8px', padding: '4px', border: '1px solid var(--border-light)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'all 0.5s ease' }}>
+                        <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
+                    </div>
+                    <span style={{ fontSize: '1.2rem', fontWeight: '900', letterSpacing: '-0.04em', background: 'linear-gradient(to right, var(--gradient-text-start), var(--gradient-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+                </div>
+
+                <div style={{ width: '80px' }} className="desktop-only" />
+            </nav>
 
             <div style={{ maxWidth: '720px', margin: '0 auto', padding: '1.5rem 1.25rem' }}>
                 {/* Question */}
@@ -106,8 +140,9 @@ export default function QuestionDetailClient({ questionId, user }: { questionId:
                             <div style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}>{question.student.department} · {timeAgo}</div>
                         </div>
                         <div style={{ marginLeft: 'auto' }}>
-                            <span className="tag" style={{ background: question.subject.color + '20', color: question.subject.color }}>
-                                {question.subject.icon} {question.subject.name}
+                            <span className="tag" style={{ background: question.subject.color + '20', color: question.subject.color, borderRadius: '8px', padding: '0.3rem 0.75rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <SubjectIcon name={question.subject.name} emoji={question.subject.icon} />
+                                <span style={{ fontWeight: 600 }}>{question.subject.name}</span>
                             </span>
                         </div>
                     </div>
@@ -131,15 +166,15 @@ export default function QuestionDetailClient({ questionId, user }: { questionId:
                     {/* Actions */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light)' }}>
                         <button onClick={handleUpvote} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'none', border: 'none', cursor: 'pointer', color: isUpvoted ? 'var(--accent)' : 'var(--text-secondary)', fontWeight: 600, fontSize: '0.9rem', transition: 'color 0.2s' }}>
-                            <svg viewBox="0 0 24 24" fill={isUpvoted ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}>
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                            </svg>
+                            <Heart size={18} fill={isUpvoted ? "currentColor" : "none"} />
                             {question._count.upvotes} {isUpvoted ? 'Liked' : 'Like'}
                         </button>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                            💬 {question._count.answers} {question._count.answers === 1 ? 'Answer' : 'Answers'}
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <MessageSquare size={18} /> {question._count.answers} {question._count.answers === 1 ? 'Answer' : 'Answers'}
                         </span>
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>👁 {question.views} views</span>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <Eye size={18} /> {question.views} views
+                        </span>
                     </div>
                 </div>
 
@@ -162,7 +197,7 @@ export default function QuestionDetailClient({ questionId, user }: { questionId:
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                                         <span style={{ fontWeight: 700, fontSize: '0.92rem' }}>{ans.professor.name}</span>
                                         {(ans.professor.role === 'professor' || ans.professor.role === 'admin') && (
-                                            <span style={{ width: 16, height: 16, background: 'var(--accent)', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.55rem', color: 'white', fontWeight: 700 }}>✓</span>
+                                            <CheckCircle2 size={14} color="var(--accent)" fill="var(--accent-glow)" />
                                         )}
                                     </div>
                                     <div style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
@@ -198,9 +233,12 @@ export default function QuestionDetailClient({ questionId, user }: { questionId:
                 )}
 
                 {user.role === 'student' && question.answers.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px' }}>
-                        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⏳</div>
-                        <div style={{ fontSize: '0.9rem' }}>No professor has answered yet. Check back soon!</div>
+                    <div style={{ textAlign: 'center', padding: '3rem 2rem', color: 'var(--text-secondary)', background: 'linear-gradient(135deg, var(--bg-card), var(--bg-primary))', border: '1px dashed var(--border-light)', borderRadius: '16px', marginTop: '1rem' }} className="animate-fadeIn">
+                        <div style={{ display: 'inline-flex', padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '50%', marginBottom: '1.25rem', border: '1px solid var(--border-light)' }}>
+                            <Coffee size={32} color="var(--accent)" opacity={0.6} />
+                        </div>
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>No professor has approached yet</h3>
+                        <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', maxWidth: '280px', margin: '0 auto', lineHeight: 1.6 }}>Professors are notified of new doubts. Keep an eye on your notification bell!</p>
                     </div>
                 )}
             </div>
