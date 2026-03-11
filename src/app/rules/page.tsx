@@ -21,21 +21,22 @@ export default function RulesPage() {
                     ].map((rule, i) => (
                         <motion.div
                             key={i}
-                            whileHover={{ x: 10, background: 'rgba(255,255,255,0.02)' }}
-                            style={{ display: 'flex', gap: '2rem', background: 'rgba(0,0,0,0.2)', padding: '2.5rem', borderRadius: '28px', border: '1px solid var(--border-light)', transition: 'all 0.2s' }}
+                            whileHover={{ x: 5, background: 'var(--bg-secondary)' }}
+                            className="proto-flex-stack proto-item-card"
+                            style={{ gap: '1.5rem', transition: 'all 0.2s', borderRadius: '16px' }}
                         >
-                            <div style={{ width: 56, height: 56, borderRadius: '16px', background: 'var(--accent-glow)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
+                            <div style={{ width: 50, height: 50, borderRadius: '12px', background: 'var(--accent-glow)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border)' }}>
                                 {rule.icon}
                             </div>
                             <div>
-                                <h4 style={{ fontWeight: 950, fontSize: '1.4rem', marginBottom: '0.6rem', color: 'white', letterSpacing: '-0.02em' }}>{rule.title}</h4>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, fontWeight: 500 }}>{rule.desc}</p>
+                                <h4 style={{ fontWeight: 900, fontSize: '1.25rem', marginBottom: '0.4rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{rule.title}</h4>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, fontWeight: 600 }}>{rule.desc}</p>
                             </div>
                         </motion.div>
                     ))}
                 </div>
 
-                <div style={{ textAlign: 'center', marginTop: '1rem', padding: '1.5rem', border: '1px dashed var(--danger)', borderRadius: '20px', color: 'var(--danger)', fontWeight: 900, fontSize: '0.85rem', letterSpacing: '0.1em', background: 'rgba(239, 68, 68, 0.05)' }}>
+                <div style={{ textAlign: 'center', marginTop: '1.5rem', padding: '1.75rem', border: '1px dashed #ef4444', borderRadius: '24px', color: '#b91c1c', fontWeight: 900, fontSize: '0.8rem', letterSpacing: '0.15em', background: 'rgba(239, 68, 68, 0.05)', textTransform: 'uppercase' }}>
                     VIOLATION DETECTION TRIGGERS IMMEDIATE AND PERMANENT DE-SYNCHRONIZATION.
                 </div>
             </div>

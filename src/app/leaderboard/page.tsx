@@ -16,45 +16,74 @@ export default function LeaderboardPage() {
     return (
         <InfoLayout
             title="The Leaderboard"
-            subtitle="The definitive hierarchy of intellectual contribution within the knowledge grid."
+            subtitle="The definitive hierarchy of intellectual contribution within the institutional knowledge grid."
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-                <div style={{ padding: '3rem', background: 'linear-gradient(135deg, rgba(108, 99, 255, 0.05), rgba(168, 85, 247, 0.05))', borderRadius: '32px', border: '1px solid var(--accent-glow)', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.2)' }}>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--warning)' }}>
-                        <TrendingUp size={32} /> <Star size={32} fill="var(--warning)" /> <Award size={32} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
+                <div style={{ padding: '2.5rem', background: 'rgba(44, 89, 73, 0.04)', borderRadius: '16px', border: '1px solid var(--border)', textAlign: 'center', boxShadow: '0 20px 40px rgba(44, 89, 73, 0.05)', backdropFilter: 'blur(10px)' }}>
+                    <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent)' }}>
+                        <TrendingUp size={28} /> <Star size={28} fill="currentColor" /> <Award size={28} />
                     </div>
-                    <h3 style={{ fontWeight: 950, fontSize: '1.8rem', marginBottom: '0.75rem', color: 'white' }}>Top 1% Contributors</h3>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', fontWeight: 500 }}>These nodes exhibit unparalleled resolution efficiency and architectural understanding.</p>
+                    <h3 style={{ fontWeight: 950, fontSize: '1.8rem', marginBottom: '0.5rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Architectural Elite</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '550px', margin: '0 auto', fontWeight: 600, lineHeight: 1.6 }}>These neural nodes exhibit the highest resolution efficiency and structural mastery within the global workspace.</p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                    {LEADERBOARD_DATA.map((entry, i) => (
-                        <motion.div
-                            key={i}
-                            whileHover={{ scale: 1.02, x: 5 }}
-                            className="card glow-card tilt-3d"
-                            style={{ padding: '2rem', display: 'flex', alignItems: 'center', gap: '2rem', background: 'rgba(20,20,20,0.4)', borderRadius: '32px', border: entry.rank === 1 ? '1px solid var(--warning)' : '1px solid var(--border)' }}
-                        >
-                            <div style={{ fontSize: '2.5rem', fontWeight: 950, color: entry.rank === 1 ? 'var(--warning)' : 'var(--text-muted)', width: '60px', textAlign: 'center', filter: entry.rank === 1 ? 'drop-shadow(0 0 10px rgba(255,212,0,0.3))' : 'none' }}>
-                                #{entry.rank}
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontWeight: 900, fontSize: '1.4rem', display: 'flex', alignItems: 'center', gap: '1rem', color: 'white' }}>
-                                    {entry.name}
-                                    <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', fontSize: '0.8rem', padding: '0.4rem 0.8rem', borderRadius: '10px', border: '1px solid var(--border)', fontWeight: 800 }}>{entry.department} NODE</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {LEADERBOARD_DATA.map((entry, i) => {
+                        const isTop1 = entry.rank === 1;
+                        const isTop2 = entry.rank === 2;
+                        const isTop3 = entry.rank === 3;
+
+                        const rankColor = isTop1 ? '#ffd400' : isTop2 ? '#94a3b8' : isTop3 ? '#92400e' : 'var(--text-muted)';
+                        const cardBorder = isTop1 ? 'rgba(255, 212, 0, 0.4)' : 'var(--border)';
+
+                        return (
+                            <motion.div
+                                key={i}
+                                whileHover={{ scale: 1.005, x: 5 }}
+                                className="proto-item-card"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1.25rem',
+                                    background: isTop1 ? 'rgba(255, 212, 0, 0.05)' : 'transparent',
+                                    borderRadius: '12px',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                }}
+                            >
+                                <div style={{
+                                    fontSize: '1.8rem',
+                                    fontWeight: 950,
+                                    color: rankColor,
+                                    width: '35px',
+                                    textAlign: 'center',
+                                    filter: (isTop1 || isTop2 || isTop3) ? `drop-shadow(0 0 10px ${rankColor}44)` : 'none',
+                                    fontFamily: 'monospace',
+                                    flexShrink: 0
+                                }}>
+                                    {entry.rank}
                                 </div>
-                                <div style={{ display: 'flex', gap: '2rem', marginTop: '0.75rem', color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: 600 }}>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Star size={18} color="var(--warning)" fill="var(--warning)" /> {entry.score.toLocaleString()} Rizz Units</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Trophy size={18} color="var(--success)" /> {entry.solved} Systematic Resolves</span>
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                    <div style={{ fontWeight: 900, fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-primary)', flexWrap: 'wrap' }}>
+                                        {entry.name}
+                                        <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', fontSize: '0.6rem', padding: '0.15rem 0.5rem', borderRadius: '6px', border: '1px solid var(--border)', fontWeight: 900, letterSpacing: '0.1em' }}>{entry.department}</div>
+                                    </div>
+                                    <div className="proto-flex-stack" style={{ display: 'flex', gap: '1rem', marginTop: '0.2rem', color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>
+                                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Star size={12} color="#ffd400" fill="#ffd400" /> <b style={{ color: 'var(--text-primary)' }}>{entry.score.toLocaleString()}</b> Rizz</span>
+                                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Trophy size={12} color="var(--accent)" /> <b style={{ color: 'var(--text-primary)' }}>{entry.solved}</b> Resolves</span>
+                                    </div>
                                 </div>
-                            </div>
-                            {entry.rank === 1 && <div style={{ color: 'var(--warning)', background: 'rgba(255,212,0,0.1)', padding: '0.5rem', borderRadius: '12px' }}><Trophy size={32} /></div>}
-                        </motion.div>
-                    ))}
+                                {(isTop1 || isTop2 || isTop3) && (
+                                    <div className="desktop-only" style={{ color: rankColor, background: `${rankColor}11`, padding: '0.75rem', borderRadius: '12px', border: `1px solid ${rankColor}22` }}>
+                                        <Trophy size={20} />
+                                    </div>
+                                )}
+                            </motion.div>
+                        );
+                    })}
                 </div>
 
-                <div style={{ marginTop: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.1em' }}>
-                    <p>SYNCHRONIZATION CYCLE: 24 HOURS. MAINTAIN OPERATIONAL FOCUS. ⚡</p>
+                <div style={{ marginTop: '4rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.2em', padding: '2rem', borderTop: '1px solid var(--border)' }}>
+                    <p>SYNCHRONIZATION CYCLE ACTIVATED — MAINTAIN OPERATIONAL FOCUS</p>
                 </div>
             </div>
         </InfoLayout>
