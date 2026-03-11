@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Admin only' }, { status: 403 })
         }
 
-        const [users, questions, answers, subjects] = await Promise.all([
+        const [users, questions, answers, subjects, unanswered] = await Promise.all([
             prisma.user.findMany({
                 select: { id: true, name: true, email: true, role: true, department: true, verified: true, createdAt: true },
                 orderBy: { createdAt: 'desc' },
@@ -17,9 +17,21 @@ export async function GET(req: NextRequest) {
             prisma.question.count(),
             prisma.answer.count(),
             prisma.subject.count(),
+            prisma.question.findMany({
+                where: { answers: { none: {} } },
+                include: {
+                    student: { select: { name: true, email: true } },
+                    subject: true,
+                },
+                orderBy: { createdAt: 'desc' },
+            }),
         ])
 
-        return NextResponse.json({ users, stats: { questions, answers, subjects, users: users.length } })
+        return NextResponse.json({
+            users,
+            stats: { questions, answers, subjects, users: users.length },
+            unanswered
+        })
     } catch (error) {
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }

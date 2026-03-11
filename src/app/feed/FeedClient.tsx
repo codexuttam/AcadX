@@ -12,7 +12,7 @@ import {
     MessageSquare, Search, Plus, TrendingUp, Award, Zap, BookOpen, Clock,
     CheckCircle2, Sparkles, Quote, Coffee, Layers, Network, Boxes, Sun, Moon, LogOut, Menu, X,
     Atom, Calculator, Lightbulb, Leaf, Shield, Lock, Dna, FlaskConical, Construction, Cloud, Settings, Scale, FileText, Hammer, UserCheck,
-    User, GraduationCap, Wand2
+    User, GraduationCap, Wand2, CircuitBoard, Sigma, Activity, Languages, Monitor, Pi, Binary, Code2
 } from 'lucide-react'
 
 interface Subject { id: string; name: string; color: string; icon: string; _count?: { questions: number } }
@@ -50,41 +50,41 @@ const DAILY_FACTS = [
 const SUBJECT_ICON_MAP: Record<string, any> = {
     'Python': <Terminal size={14} />,
     'C Programming': <Cpu size={14} />,
-    'C++': <Boxes size={14} />,
+    'C++': <Layers size={14} />,
     'Java': <Coffee size={14} />,
-    'MATLAB': <Hash size={14} />,
-    'Machine Learning': <Brain size={14} />,
-    'Data Structures': <Layers size={14} />,
-    'Algorithms': <Zap size={14} />,
-    'Operating Systems': <LayoutGrid size={14} />,
+    'MATLAB': <Activity size={14} />,
+    'Machine Learning': <Workflow size={14} />,
+    'Data Structures': <Binary size={14} />,
+    'Algorithms': <Sigma size={14} />,
+    'Operating Systems': <Monitor size={14} />,
     'DBMS': <Database size={14} />,
     'Computer Networks': <Globe size={14} />,
-    'Deep Learning': <Network size={14} />,
+    'Deep Learning': <Workflow size={14} />,
     'Computer Vision': <Eye size={14} />,
-    'NLP': <MessageSquare size={14} />,
+    'NLP': <Languages size={14} />,
     // B.Tech Core
     'Engineering Physics': <Atom size={14} />,
-    'Mathematics-I': <Calculator size={14} />,
-    'Basic Electrical Engg': <Lightbulb size={14} />,
-    'Environmental Studies': <Leaf size={14} />,
-    'Discrete Mathematics': <Hash size={14} />,
-    'Computer Architecture': <Settings size={14} />,
-    'Theory of Computation': <FileText size={14} />,
-    'Compiler Design': <Hammer size={14} />,
+    'Mathematics-I': <Sigma size={14} />,
+    'Basic Electrical Engg': <CircuitBoard size={14} />,
+    'Environmental Studies': <Globe size={14} />,
+    'Discrete Mathematics': <Pi size={14} />,
+    'Computer Architecture': <Cpu size={14} />,
+    'Theory of Computation': <Code2 size={14} /> as any, // FileText to Code2
+    'Compiler Design': <Terminal size={14} />,
     // Cybersecurity
     'Cyber Security': <Shield size={14} />,
     'Network Security': <Lock size={14} />,
-    'Ethical Hacking': <UserCheck size={14} />,
+    'Ethical Hacking': <Binary size={14} />,
     'Cyber Law & Ethics': <Scale size={14} />,
     // Biotech
-    'Cell Biology': <Dna size={14} />,
+    'Cell Biology': <FlaskConical size={14} />,
     'Genetics': <Dna size={14} />,
     'Biochemistry': <FlaskConical size={14} />,
     'Bioinformatics': <Database size={14} />,
     // CSE Advanced
     'Software Engineering': <Construction size={14} />,
     'Cloud Computing': <Cloud size={14} />,
-    'IoT with ML': <Globe size={14} />
+    'IoT with ML': <CircuitBoard size={14} />
 }
 
 function SubjectIcon({ name, emoji }: { name: string, emoji: string }) {
