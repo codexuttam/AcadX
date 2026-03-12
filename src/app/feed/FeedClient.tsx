@@ -91,6 +91,34 @@ function SubjectIcon({ name, emoji }: { name: string, emoji: string }) {
     return SUBJECT_ICON_MAP[name] || <span>{emoji}</span>
 }
 
+// Short forms for long subject names used in tight UI (sidebar)
+const SUBJECT_SHORT_MAP: Record<string, string> = {
+    'Basic Electrical Engg': 'B.E.E',
+    'Computer Networks': 'CN',
+    'Operating Systems': 'OS',
+    'Data Structures': 'DS',
+    'Machine Learning': 'ML',
+    'Deep Learning': 'DL',
+    'Software Engineering': 'SWE',
+    'Computer Architecture': 'CA',
+    'Compiler Design': 'CD',
+    'C Programming': 'C',
+    'C++': 'C++',
+    'Python': 'Py',
+}
+
+function renderSubjectLabel(name: string) {
+    // prefer explicit mapping, otherwise if name is long create an acronym
+    if (SUBJECT_SHORT_MAP[name]) return SUBJECT_SHORT_MAP[name]
+    if (name.length > 14) {
+        // create acronym from capital letters or initials
+        const words = name.split(/\s|-/).filter(Boolean)
+        const letters = words.map(w => w[0]).join('').toUpperCase()
+        return letters.length <= 4 ? letters : letters.slice(0, 4)
+    }
+    return name
+}
+
 export function FeedClient({ user }: { user: TokenPayload }) {
     const router = useRouter()
     const [subjects, setSubjects] = useState<Subject[]>([])
@@ -160,6 +188,12 @@ export function FeedClient({ user }: { user: TokenPayload }) {
     useEffect(() => {
         setSelectedFilter(urlFilter)
     }, [urlFilter])
+
+    // Sync selected subject with URL query param so routing to /feed?subject=Name works
+    useEffect(() => {
+        const urlSubject = searchParams?.get('subject') || 'all'
+        if (urlSubject !== selectedSubject) setSelectedSubject(urlSubject)
+    }, [searchParams])
 
     const handleUpvote = async (questionId: string) => {
         const res = await fetch(`/api/questions/${questionId}/upvote`, { method: 'POST' })
@@ -241,11 +275,80 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                             <span style={{ fontSize: '0.95rem' }}>Nexus Control</span>
                         </Link>
                     )}
+                    <Link href="/profile" className="nav-item" style={{ marginBottom: '0.4rem', borderRadius: '14px', padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'var(--text-secondary)', fontWeight: 700 }}>
+                        <User size={22} />
+                        <span style={{ fontSize: '0.95rem' }}>Profile</span>
+                    </Link>
                     <div style={{ margin: '1.5rem 0 0.5rem', padding: '0 1rem', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>System</div>
                     <button onClick={toggleTheme} className="nav-item" style={{ width: '100%', background: 'none', border: 'none', textAlign: 'left', borderRadius: '14px', padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: 'var(--text-secondary)', fontWeight: 700, cursor: 'pointer' }}>
                         {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
                         <span style={{ fontSize: '0.95rem' }}>{theme === 'dark' ? 'Daylight' : 'Obscurity'}</span>
                     </button>
+
+                    {/* Mobile-only: Trending Domains & Faculty (from right sidebar) */}
+                    <div className="mobile-only" style={{ marginTop: '1rem' }}>
+                        <div style={{ margin: '0.5rem 0 0.5rem', padding: '0 1rem', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Trending Domains</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                    {subjects.slice(0, 6).map(s => (
+                                        <button key={s.id} onClick={() => { router.push(`/feed?subject=${encodeURIComponent(s.name)}`); setIsSidebarOpen(false) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1rem', borderRadius: '14px', border: 'none', cursor: 'pointer', background: selectedSubject === s.name ? 'var(--accent-glow)' : 'transparent', transition: 'all 0.2s', width: '100%' }} className="nav-item">
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+                                        <div style={{ width: 28, height: 28, borderRadius: '8px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: selectedSubject === s.name ? 'var(--accent)' : 'var(--text-secondary)' }}>
+                                            <SubjectIcon name={s.name} emoji={s.icon} />
+                                        </div>
+                                        <span title={s.name} style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 700 }}>{renderSubjectLabel(s.name)}</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.6rem', fontWeight: 900, background: 'var(--bg-secondary)', padding: '3px 8px', borderRadius: '6px', color: 'var(--text-muted)', border: '1px solid var(--border-light)' }}>{s._count?.questions || 0}</div>
+                                </button>
+                            ))}
+                            <button
+                                onClick={() => { setShowSubjectExplorer(true); setIsSidebarOpen(false) }}
+                                className="nav-item"
+                                style={{ marginTop: '0.25rem', padding: '0.7rem 1rem', borderRadius: '14px', border: 'none', background: 'transparent', color: 'var(--accent)', fontSize: '0.8rem', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.2s', width: '100%' }}
+                            >
+                                <Layers size={16} /> Show All
+                            </button>
+                        </div>
+
+                        <div style={{ margin: '1rem 0 0.5rem', padding: '0 1rem', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Verified Faculty</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                            {[
+                                { name: 'Dr. Rajesh Kumar', dept: 'CSE Dept', status: 'ACTIVE' },
+                                { name: 'Prof. Sunita Mehta', dept: 'AIML Lead', status: 'ONLINE' }
+                            ].map(m => (
+                                <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1rem', borderRadius: '14px' }} className="nav-item">
+                                    <div style={{ width: 32, height: 32, borderRadius: '10px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: 'var(--accent)' }}>
+                                        <GraduationCap size={18} />
+                                    </div>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                        <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {m.name} <UserCheck size={12} color="var(--accent)" />
+                                        </div>
+                                        <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 600 }}>{m.dept}</div>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                        <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 6px var(--success)' }} />
+                                        <span style={{ fontSize: '0.55rem', color: 'var(--success)', fontWeight: 900 }}>{m.status}</span>
+                                    </div>
+                                </div>
+                            ))}
+
+                            <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+                                <Link href="/faculty" style={{ padding: '0.45rem 0.75rem', borderRadius: 12, border: '1px solid var(--border-light)', background: 'transparent', color: 'var(--accent)', fontWeight: 800, fontSize: '0.85rem', textDecoration: 'none' }}>View all faculty</Link>
+                            </div>
+                        </div>
+
+                        <div style={{ padding: '1rem 1rem 0', marginTop: '0.75rem', borderTop: '1px solid var(--border-light)' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.68rem' }}>
+                                <span>© 2026 AcadX</span>
+                                <span>·</span>
+                                <Link href="/terms" onClick={() => setIsSidebarOpen(false)}>Terms</Link>
+                                <span>·</span>
+                                <Link href="/privacy" onClick={() => setIsSidebarOpen(false)}>Privacy</Link>
+                                <span>·</span>
+                                <Link href="/rules" onClick={() => setIsSidebarOpen(false)}>Rules</Link>
+                            </div>
+                        </div>
+                    </div>
                 </nav>
 
                 <div style={{ padding: '1rem 0.75rem', borderTop: '1px solid var(--border-light)', marginTop: 'auto' }}>
@@ -281,6 +384,13 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                                     </button>
                                 )}
                                 <div style={{ height: '1px', background: 'var(--border-light)', margin: '0.5rem 0' }} />
+                                <button onClick={() => { setShowProfileMenu(false); router.push('/profile') }} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', width: '100%', textAlign: 'left', padding: '0.75rem 0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 700, borderRadius: 10, transition: 'all 0.2s' }} className="nav-item">
+                                    <div style={{ display: 'flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', color: 'var(--text-secondary)' }}>
+                                        <User size={16} />
+                                    </div>
+                                    <span style={{ fontSize: '0.85rem' }}>View Profile</span>
+                                </button>
+                                <div style={{ height: '1px', background: 'var(--border-light)', margin: '0.5rem 0' }} />
                                 <button onClick={() => { setShowProfileMenu(false); logout() }} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', width: '100%', textAlign: 'left', padding: '0.75rem 0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)', fontWeight: 700, borderRadius: 10, transition: 'all 0.2s' }} className="nav-item">
                                     <div style={{ display: 'flex', width: 28, height: 28, alignItems: 'center', justifyContent: 'center', borderRadius: 8, background: 'rgba(239, 68, 68, 0.1)', color: 'var(--danger)' }}>
                                         <LogOut size={16} />
@@ -293,12 +403,12 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                 </div>
             </aside>
 
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }} className="main-content">
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', overflow: 'hidden' }} className="main-content">
                 <div style={{ display: 'flex', width: '100%', maxWidth: '1100px', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', width: '100%' }} className="feed-layout">
-                        <main style={{ flex: 1, minWidth: 0, borderRight: '1px solid var(--border-light)' }}>
+                        <main style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ position: 'sticky', top: 0, background: 'rgba(var(--bg-primary-rgb), 0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-light)', padding: '1.5rem 2rem', zIndex: 10 }} className="feed-header">
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                                     <div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
                                             <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 10px var(--success)' }} />
@@ -321,7 +431,7 @@ export function FeedClient({ user }: { user: TokenPayload }) {
 
                                 <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
                                     <Search size={18} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.5 }} />
-                                    <input className="input" placeholder="Search academic archives by keyword, subject, or protocol ID..." value={search} onChange={e => setSearch(e.target.value)} style={{ padding: '1.2rem 1.2rem 1.2rem 3.25rem', borderRadius: '18px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', fontSize: '0.95rem', fontWeight: 500, width: '100%', transition: 'all 0.2s' }} />
+                                    <input className="input" placeholder="Search academic archives..." value={search} onChange={e => setSearch(e.target.value)} style={{ padding: '1.2rem 1.2rem 1.2rem 3.25rem', borderRadius: '18px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', fontSize: '0.95rem', fontWeight: 500, width: '100%', transition: 'all 0.2s' }} />
                                 </div>
 
                                 <div style={{ display: 'flex', gap: '0.75rem', overflowX: 'auto', paddingBottom: '0.5rem', scrollbarWidth: 'none' }} className="no-scrollbar">
@@ -337,7 +447,7 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                             </div>
 
                             {!search && selectedSubject === 'all' && (
-                                <div className="animate-fadeIn" style={{ padding: '1.5rem 1.5rem 1rem' }}>
+                                <div className="animate-fadeIn" style={{ padding: '1.5rem 1rem 1rem' }}>
                                     <div className="card glass" style={{ padding: '1.5rem', borderRadius: '20px', background: 'linear-gradient(135deg, rgba(108,99,255,0.05), rgba(0,0,0,0.4))', border: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                                         <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.1 }}><Sparkles size={120} color="var(--accent)" /></div>
                                         <div style={{ position: 'relative', zIndex: 1 }}>
@@ -392,12 +502,12 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                     {subjects.slice(0, 6).map(s => (
-                                        <button key={s.id} onClick={() => setSelectedSubject(s.name === selectedSubject ? 'all' : s.name)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', borderRadius: '16px', border: '1px solid transparent', cursor: 'pointer', background: selectedSubject === s.name ? 'var(--accent-glow)' : 'var(--bg-secondary)', transition: 'all 0.2s', width: '100%' }}>
+                                        <button key={s.id} onClick={() => { router.push(`/feed?subject=${encodeURIComponent(s.name)}`) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', borderRadius: '16px', border: '1px solid transparent', cursor: 'pointer', background: selectedSubject === s.name ? 'var(--accent-glow)' : 'var(--bg-secondary)', transition: 'all 0.2s', width: '100%' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                                                 <div style={{ width: 32, height: 32, borderRadius: '10px', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: selectedSubject === s.name ? 'var(--accent)' : 'var(--text-secondary)' }}>
                                                     <SubjectIcon name={s.name} emoji={s.icon} />
                                                 </div>
-                                                <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 700 }}>{s.name}</span>
+                                                <span title={s.name} style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 700 }}>{renderSubjectLabel(s.name)}</span>
                                             </div>
                                             <div style={{ fontSize: '0.65rem', fontWeight: 900, background: 'var(--bg-primary)', padding: '4px 10px', borderRadius: '8px', color: 'var(--text-muted)', border: '1px solid var(--border-light)' }}>{s._count?.questions || 0}</div>
                                         </button>
@@ -417,27 +527,31 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                                     <h3 style={{ fontWeight: 900, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-primary)' }}>Verified Faculty</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                    {[
-                                        { name: 'Dr. Rajesh Kumar', dept: 'CSE Dept', status: 'ACTIVE' },
-                                        { name: 'Prof. Sunita Mehta', dept: 'AIML Lead', status: 'ONLINE' }
-                                    ].map(m => (
-                                        <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem', borderRadius: '12px', transition: 'all 0.2s' }}>
-                                            <div style={{ width: 44, height: 44, borderRadius: '14px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: 'var(--accent)' }}>
-                                                <GraduationCap size={22} />
-                                            </div>
-                                            <div style={{ flex: 1, minWidth: 0 }}>
-                                                <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                    {m.name} <UserCheck size={14} color="var(--accent)" />
+                                            {[
+                                                { name: 'Dr. Rajesh Kumar', dept: 'CSE Dept', status: 'ACTIVE' },
+                                                { name: 'Prof. Sunita Mehta', dept: 'AIML Lead', status: 'ONLINE' }
+                                            ].map(m => (
+                                                <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem', borderRadius: '12px', transition: 'all 0.2s' }}>
+                                                    <div style={{ width: 44, height: 44, borderRadius: '14px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: 'var(--accent)' }}>
+                                                        <GraduationCap size={22} />
+                                                    </div>
+                                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                                        <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                            {m.name} <UserCheck size={14} color="var(--accent)" />
+                                                        </div>
+                                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{m.dept}</div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 8px var(--success)' }} />
+                                                        <span style={{ fontSize: '0.6rem', color: 'var(--success)', fontWeight: 900 }}>{m.status}</span>
+                                                    </div>
                                                 </div>
-                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{m.dept}</div>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 8px var(--success)' }} />
-                                                <span style={{ fontSize: '0.6rem', color: 'var(--success)', fontWeight: 900 }}>{m.status}</span>
+                                            ))}
+
+                                            <div style={{ marginTop: '0.25rem', display: 'flex', justifyContent: 'center' }}>
+                                                <Link href="/faculty" onClick={() => { /* sidebar will close on navigation via mobile header handler */ }} style={{ padding: '0.5rem 0.75rem', borderRadius: 12, border: '1px solid var(--border-light)', background: 'transparent', color: 'var(--accent)', fontWeight: 800, fontSize: '0.85rem', textDecoration: 'none' }}>View all faculty</Link>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
                             </div>
 
                             <div style={{ padding: '0 1rem', marginTop: '1rem' }}>
@@ -490,7 +604,8 @@ function QuestionCard({ question: q, currentUserId, userRole, onUpvote, onQuesti
                 borderBottom: '1px solid var(--border-light)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
             }}
         >
             <div style={{ display: 'flex', gap: '1.25rem' }}>
@@ -526,7 +641,7 @@ function QuestionCard({ question: q, currentUserId, userRole, onUpvote, onQuesti
                         </div>
                     )}
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
                         <button onClick={(e) => { e.stopPropagation(); onUpvote(q.id) }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: isUpvoted ? 'var(--accent-glow)' : 'transparent', border: 'none', cursor: 'pointer', color: isUpvoted ? 'var(--accent)' : 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 700, padding: '0.4rem 0.8rem', borderRadius: '10px', transition: 'all 0.2s' }}>
                             <svg viewBox="0 0 24 24" fill={isUpvoted ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" style={{ width: 18, height: 18 }}>
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />

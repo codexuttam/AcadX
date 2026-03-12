@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import { ShieldCheck, BookOpen, Users, ArrowLeft, ChevronRight, Terminal } from 'lucide-react'
+import { ShieldCheck, BookOpen, Users, ArrowLeft, ChevronRight, Terminal, Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function LoginPage() {
@@ -32,6 +32,7 @@ function LoginContent() {
     })
     const [otpSent, setOtpSent] = useState(false)
     const [otpLoading, setOtpLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     useEffect(() => {
         if (registerMode) setMode('register')
@@ -314,7 +315,22 @@ function LoginContent() {
 
                                     <div>
                                         <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Security Key (Password)</label>
-                                        <input className="input" type="password" placeholder="••••••••" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required />
+                                        <div style={{ position: 'relative' }}>
+                                            <input className="input" type={showPassword ? 'text' : 'password'} placeholder="••••••••" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required style={{ paddingRight: '2.75rem' }} />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(v => !v)}
+                                                style={{
+                                                    position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)',
+                                                    background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem',
+                                                    color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    transition: 'color 0.2s'
+                                                }}
+                                                title={showPassword ? 'Hide password' : 'Show password'}
+                                            >
+                                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                            </button>
+                                        </div>
                                     </div>
 
                                     {mode === 'register' && (

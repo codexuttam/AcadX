@@ -131,6 +131,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -140,6 +141,7 @@ body {
   font-family: var(--font-family);
   min-height: 100vh;
   line-height: 1.5;
+  overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
 }
 
@@ -912,6 +914,127 @@ body {
 @media (min-width: 1025px) {
   .mobile-only {
     display: none !important;
+  }
+}
+
+/* Feed Layout Responsive */
+.main-content {
+  margin-left: 260px;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding-top: 60px;
+  }
+}
+
+.feed-layout {
+  display: flex;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .feed-layout {
+    flex-direction: column !important;
+  }
+
+  .feed-layout > main {
+    border-right: none !important;
+  }
+}
+
+/* Feed header responsive */
+@media (max-width: 768px) {
+  .feed-header {
+    padding: 1rem 1rem !important;
+  }
+
+  .feed-header h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .feed-header {
+    padding: 0.75rem 0.75rem !important;
+  }
+
+  .feed-header h1 {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Prevent horizontal overflow globally */
+.main-content,
+.main-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.main-content img,
+.main-content video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Filter pill row: allow horizontal scroll on small screens */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Feed item responsive */
+@media (max-width: 768px) {
+  .feed-item {
+    padding: 1rem 0.75rem !important;
+  }
+
+  .feed-item h3 {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .feed-item {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  .feed-item h3 {
+    font-size: 0.92rem !important;
+  }
+}
+
+/* Card responsive */
+@media (max-width: 768px) {
+  .card {
+    border-radius: 14px !important;
+  }
+
+  .card.glass {
+    padding: 1rem !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* Profile page responsive */
+@media (max-width: 768px) {
+  .profile-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .dean-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-stats-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 

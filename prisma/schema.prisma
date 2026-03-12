@@ -15,6 +15,7 @@ model User {
   department String   @default("CSE")
   verified        Boolean  @default(false)
   avatar          String?
+  bio             String?
   credits         Int      @default(10)
   lastCreditReset DateTime @default(now())
   createdAt       DateTime @default(now())

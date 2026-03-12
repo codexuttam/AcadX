@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { CheckCircle, MessageSquare, Shield, ArrowRight, Star, Cpu, BookOpen, ChevronDown, Award, Sun, Moon, Menu, X, ShieldCheck, Users, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ENGINEERING_FACTS } from '@/data/facts'
+import { pickByDay } from '@/lib/genz'
 
 function FAQItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -188,6 +189,12 @@ export default function LandingPage() {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
 
+    // Close mobile menu when resizing to desktop
+    const handleResize = () => {
+      if (window.innerWidth > 1024) setIsMenuOpen(false)
+    }
+    window.addEventListener('resize', handleResize)
+
     // Auth check - client side
     // NOTE: previously this redirected authenticated users from the landing page
     // straight to /admin or /feed. That made it impossible to view the marketing
@@ -225,7 +232,10 @@ export default function LandingPage() {
     }
     fetchLatest()
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [router])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -287,6 +297,7 @@ export default function LandingPage() {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
+              className="mobile-only"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -501,7 +512,7 @@ export default function LandingPage() {
                   <div style={{ display: 'flex' }}>
                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} fill="var(--warning)" color="var(--warning)" />)}
                   </div>
-                  <span style={{ fontWeight: 700, fontStyle: 'italic' }}>&quot;Pehle use kar, firr reviews milenge 😉&quot;</span>
+                  <span style={{ fontWeight: 700, fontStyle: 'italic' }}>&quot;{pickByDay()}&quot;</span>
                 </div>
               </div>
             </div>
