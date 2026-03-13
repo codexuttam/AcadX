@@ -191,7 +191,7 @@ export default function LandingPage() {
 
     // Close mobile menu when resizing to desktop
     const handleResize = () => {
-      if (window.innerWidth > 1024) setIsMenuOpen(false)
+      if (window.innerWidth >= 1024) setIsMenuOpen(false)
     }
     window.addEventListener('resize', handleResize)
 
