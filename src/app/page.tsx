@@ -16,11 +16,12 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
       onClick={() => setIsOpen(!isOpen)}
       className="card glass glow-card"
       style={{
-        padding: '1.25rem 1.5rem',
+        padding: 'var(--space-sm) var(--space-md)',
         cursor: 'pointer',
         transition: 'all 0.3s ease',
         border: isOpen ? '1px solid var(--accent)' : '1px solid var(--border-light)',
-        background: isOpen ? 'rgba(46, 96, 79, 0.05)' : 'var(--bg-card)'
+        background: isOpen ? 'rgba(46, 96, 79, 0.05)' : 'var(--bg-card)',
+        width: '100%'
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -498,7 +499,7 @@ export default function LandingPage() {
                 ))}
               </div>
             </div>
-            <div style={{ flex: '1 1 400px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="grid-responsive" style={{ flex: '1 1 min(100%, 400px)' }}>
               <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)' }}>
                 <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent)' }}>92%</div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Active Resolve Rate</div>
@@ -507,8 +508,8 @@ export default function LandingPage() {
                 <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent)' }}>24+</div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Verified Faculty Members</div>
               </div>
-              <div className="glass glow-card" style={{ padding: '2rem', height: '180px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', gridColumn: 'span 2' }}>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <div className="glass glow-card" style={{ padding: 'var(--space-md)', minHeight: '160px', height: 'auto', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', border: '1px solid var(--border-light)', gridColumn: '1 / -1' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex' }}>
                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} fill="var(--warning)" color="var(--warning)" />)}
                   </div>
@@ -521,7 +522,7 @@ export default function LandingPage() {
       </section>
 
       {/* Faculty Acknowledgement */}
-      <section style={{ padding: '6rem 2rem', background: 'var(--bg-primary)', perspective: '1500px' }}>
+      <section style={{ padding: 'var(--space-lg) var(--space-md)', background: 'var(--bg-primary)', perspective: '1500px' }}>
         <motion.div
           initial={{ opacity: 0, rotateX: 10, y: 50 }}
           whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
@@ -540,7 +541,7 @@ export default function LandingPage() {
                 AcadX is more than a tool; it&apos;s a professional platform where expertise is valued.
                 Professors and TAs contribute their knowledge to maintain the highest academic standards.
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+              <div className="grid-responsive" style={{ gap: 'var(--space-md)' }}>
                 <div>
                   <div style={{ color: 'var(--accent)', marginBottom: '0.75rem' }}><Award size={24} /></div>
                   <h4 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>Professional Credits</h4>
@@ -566,7 +567,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* Impact Section */}
-      <section style={{ padding: '8rem 2rem', textAlign: 'center', background: 'transparent' }}>
+      <section style={{ padding: 'var(--space-lg) var(--space-md)', textAlign: 'center', background: 'transparent' }}>
         <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '4rem', color: 'var(--text-muted)', letterSpacing: '0.3em' }}>
           GLOBAL NETWORK PARAMETERS
         </h2>
