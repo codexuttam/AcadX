@@ -407,8 +407,8 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                 <div style={{ display: 'flex', width: '100%', maxWidth: '1100px', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', width: '100%' }} className="feed-layout">
                         <main style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ position: 'sticky', top: 0, background: 'rgba(var(--bg-primary-rgb), 0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-light)', padding: '1.5rem 2rem', zIndex: 10 }} className="feed-header">
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                            <div style={{ position: 'sticky', top: 0, background: 'rgba(var(--bg-primary-rgb), 0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-light)', padding: 'var(--space-md)', zIndex: 10 }} className="feed-header">
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-md)', flexWrap: 'wrap', gap: '0.75rem' }}>
                                     <div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
                                             <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 10px var(--success)' }} />
@@ -494,7 +494,7 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                             )}
                         </main>
 
-                        <aside className="desktop-only" style={{ width: '380px', flexShrink: 0, padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                        <aside className="desktop-only" style={{ width: 'clamp(300px, 30vw, 380px)', flexShrink: 0, padding: 'var(--space-md)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                             <div className="card glass-border" style={{ padding: '2rem', borderRadius: '24px', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-light)' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.75rem' }}>
                                     <TrendingUp size={20} color="var(--accent)" />
@@ -600,7 +600,7 @@ function QuestionCard({ question: q, currentUserId, userRole, onUpvote, onQuesti
             className="feed-item glass-hover"
             onClick={onQuestionClick}
             style={{
-                padding: '1.75rem',
+                padding: 'var(--space-md)',
                 borderBottom: '1px solid var(--border-light)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
@@ -632,7 +632,7 @@ function QuestionCard({ question: q, currentUserId, userRole, onUpvote, onQuesti
                         </span>
                     </div>
 
-                    <h3 style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-primary)', marginBottom: '0.5rem', lineHeight: '1.3', letterSpacing: '-0.01em' }}>{q.title}</h3>
+                    <h3 style={{ fontWeight: 800, fontSize: 'var(--font-h3)', color: 'var(--text-primary)', marginBottom: '0.5rem', lineHeight: '1.3', letterSpacing: '-0.01em' }}>{q.title}</h3>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: '1.6', marginBottom: '1.25rem', opacity: 0.8, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>{q.description}</p>
 
                     {q.image && (
@@ -728,7 +728,7 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
                     <button onClick={onClose} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', cursor: 'pointer', color: 'var(--text-primary)', width: 40, height: 40, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}>✕</button>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{ padding: '2.5rem' }}>
+                <form onSubmit={handleSubmit} style={{ padding: 'var(--space-md)' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                         {/* Subject Selection */}
                         <div>

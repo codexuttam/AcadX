@@ -13,7 +13,7 @@ export interface InfoLayoutProps {
 
 export default function InfoLayout({ title, children, subtitle }: InfoLayoutProps) {
     return (
-        <div style={{ background: 'var(--body-bg, #f6fbfc)', color: 'var(--text-primary)', minHeight: '100vh', padding: '6rem 2rem', position: 'relative', overflow: 'hidden', WebkitFontSmoothing: 'antialiased' }}>
+        <div className="proto-layout" style={{ background: 'var(--body-bg, #f6fbfc)', color: 'var(--text-primary)', minHeight: '100vh', position: 'relative', overflow: 'hidden', WebkitFontSmoothing: 'antialiased' }}>
             {/* Background elements - Light Sync */}
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 10%, rgba(44, 89, 73, 0.05), transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
             <div style={{ position: 'absolute', top: '-15%', left: '-15%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(46, 209, 153, 0.1) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />

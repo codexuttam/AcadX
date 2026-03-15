@@ -18,23 +18,22 @@ export default function LeaderboardPage() {
             title="The Leaderboard"
             subtitle="The definitive hierarchy of intellectual contribution within the institutional knowledge grid."
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3.5rem' }}>
-                <div style={{ padding: '2.5rem', background: 'rgba(44, 89, 73, 0.04)', borderRadius: '16px', border: '1px solid var(--border)', textAlign: 'center', boxShadow: '0 20px 40px rgba(44, 89, 73, 0.05)', backdropFilter: 'blur(10px)' }}>
-                    <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent)' }}>
-                        <TrendingUp size={28} /> <Star size={28} fill="currentColor" /> <Award size={28} />
+            <div className="proto-flex-stack" style={{ gap: 'var(--space-lg)' }}>
+                <div style={{ padding: 'var(--space-md)', background: 'rgba(44, 89, 73, 0.04)', borderRadius: '16px', border: '1px solid var(--border)', textAlign: 'center', boxShadow: '0 20px 40px rgba(44, 89, 73, 0.05)', backdropFilter: 'blur(10px)' }}>
+                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '1rem', color: 'var(--accent)' }}>
+                        <TrendingUp size={24} /> <Star size={24} fill="currentColor" /> <Award size={24} />
                     </div>
-                    <h3 style={{ fontWeight: 950, fontSize: '1.8rem', marginBottom: '0.5rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Architectural Elite</h3>
+                    <h3 style={{ fontWeight: 950, fontSize: 'var(--font-h3)', marginBottom: '0.5rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Architectural Elite</h3>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '550px', margin: '0 auto', fontWeight: 600, lineHeight: 1.6 }}>These neural nodes exhibit the highest resolution efficiency and structural mastery within the global workspace.</p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <div className="proto-flex-stack" style={{ gap: '0.75rem' }}>
                     {LEADERBOARD_DATA.map((entry, i) => {
                         const isTop1 = entry.rank === 1;
                         const isTop2 = entry.rank === 2;
                         const isTop3 = entry.rank === 3;
 
                         const rankColor = isTop1 ? '#ffd400' : isTop2 ? '#94a3b8' : isTop3 ? '#92400e' : 'var(--text-muted)';
-                        const cardBorder = isTop1 ? 'rgba(255, 212, 0, 0.4)' : 'var(--border)';
 
                         return (
                             <motion.div
@@ -44,17 +43,18 @@ export default function LeaderboardPage() {
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '1.25rem',
+                                    gap: 'clamp(0.5rem, 3vw, 1.25rem)',
                                     background: isTop1 ? 'rgba(255, 212, 0, 0.05)' : 'transparent',
                                     borderRadius: '12px',
-                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    padding: 'var(--space-sm)'
                                 }}
                             >
                                 <div style={{
-                                    fontSize: '1.8rem',
+                                    fontSize: 'var(--font-h3)',
                                     fontWeight: 950,
                                     color: rankColor,
-                                    width: '35px',
+                                    width: 'clamp(30px, 5vw, 45px)',
                                     textAlign: 'center',
                                     filter: (isTop1 || isTop2 || isTop3) ? `drop-shadow(0 0 10px ${rankColor}44)` : 'none',
                                     fontFamily: 'monospace',
@@ -63,11 +63,11 @@ export default function LeaderboardPage() {
                                     {entry.rank}
                                 </div>
                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                    <div style={{ fontWeight: 900, fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-primary)', flexWrap: 'wrap' }}>
-                                        {entry.name}
+                                    <div style={{ fontWeight: 900, fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-primary)', flexWrap: 'wrap' }}>
+                                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{entry.name}</span>
                                         <div className="tag" style={{ background: 'var(--accent-glow)', color: 'var(--accent)', fontSize: '0.6rem', padding: '0.15rem 0.5rem', borderRadius: '6px', border: '1px solid var(--border)', fontWeight: 900, letterSpacing: '0.1em' }}>{entry.department}</div>
                                     </div>
-                                    <div className="proto-flex-stack" style={{ display: 'flex', gap: '1rem', marginTop: '0.2rem', color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>
+                                    <div style={{ display: 'flex', gap: 'clamp(0.5rem, 2vw, 1.5rem)', marginTop: '0.2rem', color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600, flexWrap: 'wrap' }}>
                                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Star size={12} color="#ffd400" fill="#ffd400" /> <b style={{ color: 'var(--text-primary)' }}>{entry.score.toLocaleString()}</b> Rizz</span>
                                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Trophy size={12} color="var(--accent)" /> <b style={{ color: 'var(--text-primary)' }}>{entry.solved}</b> Resolves</span>
                                     </div>
@@ -82,7 +82,7 @@ export default function LeaderboardPage() {
                     })}
                 </div>
 
-                <div style={{ marginTop: '4rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.2em', padding: '2rem', borderTop: '1px solid var(--border)' }}>
+                <div style={{ marginTop: 'var(--space-lg)', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.15em', padding: '2rem 1rem', borderTop: '1px solid var(--border)', lineHeight: 1.4 }}>
                     <p>SYNCHRONIZATION CYCLE ACTIVATED — MAINTAIN OPERATIONAL FOCUS</p>
                 </div>
             </div>

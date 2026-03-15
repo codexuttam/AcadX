@@ -331,7 +331,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <header ref={heroRef} onMouseMove={handleMouseMove} style={{
-        padding: '12rem 2rem 8rem', textAlign: 'center', position: 'relative',
+        padding: 'var(--space-xl) var(--space-md)', textAlign: 'center', position: 'relative',
         overflow: 'hidden', background: 'transparent'
       }}>
         <div className="hero-4d-bg" />
@@ -360,9 +360,9 @@ export default function LandingPage() {
         </div>
 
         {/* 4D Floating System Monitor */}
-        <div className="perspective-1000 animate-float" style={{ marginTop: '7rem', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
+        <div className="perspective-1000 animate-float" style={{ marginTop: 'var(--space-md)', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
           <div className="glass tilt-3d glow-card" style={{
-            padding: '2.5rem', borderRadius: '32px', width: '400px',
+            padding: 'var(--space-md)', borderRadius: '32px', width: 'min(100%, 400px)',
             transform: `perspective(1200px) rotateX(${(hoverPos.y - 0.5) * 15}deg) rotateY(${(hoverPos.x - 0.5) * 15}deg)`,
             boxShadow: '0 20px 60px -10px var(--shadow-color)',
             border: '1px solid var(--border-shadow-color)',
@@ -447,15 +447,15 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* Institutional Directives (Formerly How It Works) */}
-      <section id="pulse" style={{ padding: '8rem 2rem', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+      <section id="pulse" style={{ padding: 'var(--space-lg) var(--space-md)', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-bg" />
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Protocol Overview</h2>
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
+            <h2 style={{ fontSize: 'var(--font-h2)', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Protocol Overview</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Ensuring structural integrity and peer-reviewed clarity at every layer.</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+          <div className="grid-responsive">
             {[
               { icon: <MessageSquare size={32} />, title: "Precision Queries", desc: "Submit technical queries with LaTeX support, code blocks, and diagrams. Precision leads to clarity." },
               { icon: <Shield size={32} />, title: "Expert Verification", desc: "Our network of verified educators and domain experts provide peer-reviewed, step-by-step resolutions." },
@@ -474,11 +474,11 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section style={{ padding: '8rem 2rem', background: 'transparent' }}>
+      <section style={{ padding: 'var(--space-lg) var(--space-md)', background: 'transparent' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', alignItems: 'center' }}>
-            <div style={{ flex: '1 1 400px' }}>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>Built for the <span style={{ color: 'var(--accent)' }}>Future</span> of Learning</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-lg)', alignItems: 'center' }}>
+            <div style={{ flex: '1 1 min(100%, 400px)' }}>
+              <h2 style={{ fontSize: 'var(--font-h2)', fontWeight: 800, marginBottom: '1.5rem' }}>Built for the <span style={{ color: 'var(--accent)' }}>Future</span> of Learning</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '2rem' }}>
                 AcadX isn&apos;t just a forum; it&apos;s a high-performance ecosystem designed to handle the rigorous demands of engineering coursework.
               </p>
@@ -606,9 +606,9 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ padding: '8rem 2rem', textAlign: 'center', position: 'relative' }}>
+      <section style={{ padding: 'var(--space-lg) var(--space-md)', textAlign: 'center', position: 'relative' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'hidden', pointerEvents: 'none', zIndex: -1 }}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 'min(100vw, 600px)', height: 'min(100vw, 600px)', background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)', borderRadius: '50%' }} />
         </div>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.03em' }}>Ready to Scale Your<br />Academic Growth?</h2>
@@ -620,8 +620,8 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border-light)', background: 'transparent' }}>
-        <div className="footer-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '3rem', textAlign: 'center' }}>
+      <footer style={{ padding: 'var(--space-md) var(--space-md)', borderTop: '1px solid var(--border-light)', background: 'transparent' }}>
+        <div className="footer-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 'var(--space-md)', textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
               <div style={{ position: 'relative', width: 36, height: 36, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '8px', padding: '5px', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', transition: 'all 0.5s ease' }}>

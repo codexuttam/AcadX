@@ -108,7 +108,7 @@ function LoginContent() {
     }
 
     return (
-        <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', perspective: '1000px' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-md)', perspective: '1000px' }}>
 
             {/* Full-screen instant loading overlay */}
             {navigating && (
@@ -142,24 +142,23 @@ function LoginContent() {
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        style={{ textAlign: 'center', marginBottom: '4rem' }}
+                        style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}
                     >
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2rem' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '1.25rem', marginBottom: 'var(--space-md)' }}>
                             <div style={{ position: 'relative', width: 56, height: 56, overflow: 'hidden', backgroundColor: 'var(--logo-bg)', borderRadius: '14px', padding: '8px', boxShadow: '0 8px 16px rgba(0,0,0,0.06)' }}>
                                 <Image src="/logo.png" alt="AcadX Logo" fill style={{ objectFit: 'contain' }} />
                             </div>
-                            <span style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-0.05em', background: 'linear-gradient(to right, var(--accent), var(--text-primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
+                            <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', fontWeight: '900', letterSpacing: '-0.05em', background: 'linear-gradient(to right, var(--accent), var(--text-primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AcadX</span>
                         </div>
-                        <h1 style={{ fontSize: '0.85rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.4em', color: 'var(--accent)', marginBottom: '1rem', opacity: 0.8 }}>SELECT ACCESS PROTOCOL</h1>
+                        <h1 style={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--accent)', marginBottom: '1rem', opacity: 0.8 }}>SELECT ACCESS PROTOCOL</h1>
 
-                        {/* Cool Font Paragraph Section */}
-                        <div style={{ marginBottom: '2.5rem' }}>
-                            <p style={{ fontSize: '2.25rem', fontWeight: 300, color: 'var(--text-primary)', letterSpacing: '-0.04em', lineHeight: 1.2, maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{ marginBottom: 'var(--space-md)' }}>
+                            <p style={{ fontSize: 'clamp(1.4rem, 4vw, 2.25rem)', fontWeight: 300, color: 'var(--text-primary)', letterSpacing: '-0.04em', lineHeight: 1.2, maxWidth: '800px', margin: '0 auto' }}>
                                 Empowering <span style={{ fontWeight: 800, fontStyle: 'italic' }}>Academic Excellence</span> through decentralized intelligence and real-time collaboration.
                             </p>
                         </div>
 
-                        <p style={{ maxWidth: '650px', margin: '0 auto', fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, fontWeight: 500, opacity: 0.65 }}>
+                        <p style={{ maxWidth: '650px', margin: '0 auto', fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, fontWeight: 500, opacity: 0.65 }}>
                             Initialize your persistent resolution interface. Choose your entry point to synchronize with the institutional knowledge grid and resolve technical queries across the network.
                         </p>
                     </motion.div>
@@ -190,7 +189,7 @@ function LoginContent() {
                                     transition: { staggerChildren: 0.12 }
                                 }
                             }}
-                            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', width: '100%' }}
+                            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'var(--space-md)', width: '100%' }}
                         >
                             {[
                                 { id: 'admin', title: 'The Dean', icon: <ShieldCheck size={28} />, color: '#ff0080', bg: 'linear-gradient(135deg, var(--accent), #ff0080)', code: 'AUTH-ADM-01', desc: 'Administrative center for university-wide academic oversight and high-level policy management.' },
@@ -206,14 +205,14 @@ function LoginContent() {
                                     onClick={() => selectPortal(p.id as any)}
                                     className="card glass glow-card hover-lift preserve-3d"
                                     style={{
-                                        padding: '3rem 2.5rem',
-                                        borderRadius: '40px',
+                                        padding: 'var(--space-lg) var(--space-md)',
+                                        borderRadius: '32px',
                                         textAlign: 'center',
                                         cursor: 'pointer',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
-                                        gap: '1.5rem',
+                                        gap: '1.25rem',
                                         border: '1px solid var(--border)',
                                         background: 'var(--bg-card)',
                                         position: 'relative',
@@ -255,8 +254,8 @@ function LoginContent() {
                             onMouseMove={handleMouseMove}
                             className="card tilt-3d glow-card preserve-3d glass"
                             style={{
-                                padding: '3.5rem 3rem',
-                                borderRadius: '40px',
+                                padding: 'var(--space-lg) var(--space-md)',
+                                borderRadius: '32px',
                                 border: '1px solid var(--border)',
                                 transform: `perspective(1000px) rotateX(${(hoverPos.y - 0.5) * -10}deg) rotateY(${(hoverPos.x - 0.5) * 10}deg)`
                             }}
@@ -378,9 +377,9 @@ function LoginContent() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1, duration: 1 }}
-                        style={{ marginTop: '5rem', borderTop: '1px solid var(--border-light)', paddingTop: '2.5rem' }}
+                        style={{ marginTop: 'var(--space-lg)', borderTop: '1px solid var(--border-light)', paddingTop: 'var(--space-lg)' }}
                     >
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'left' }}>
+                        <div className="grid-responsive" style={{ textAlign: 'left' }}>
                             <div>
                                 <h3 style={{ fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--accent)', marginBottom: '1rem' }}>Resolution Architecture</h3>
                                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6, opacity: 0.8 }}>
