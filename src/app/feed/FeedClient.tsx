@@ -289,8 +289,8 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                     <div className="mobile-only" style={{ marginTop: '1rem' }}>
                         <div style={{ margin: '0.5rem 0 0.5rem', padding: '0 1rem', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Trending Domains</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                                    {subjects.slice(0, 6).map(s => (
-                                        <button key={s.id} onClick={() => { router.push(`/feed?subject=${encodeURIComponent(s.name)}`); setIsSidebarOpen(false) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1rem', borderRadius: '14px', border: 'none', cursor: 'pointer', background: selectedSubject === s.name ? 'var(--accent-glow)' : 'transparent', transition: 'all 0.2s', width: '100%' }} className="nav-item">
+                            {subjects.slice(0, 6).map(s => (
+                                <button key={s.id} onClick={() => { router.push(`/feed?subject=${encodeURIComponent(s.name)}`); setIsSidebarOpen(false) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1rem', borderRadius: '14px', border: 'none', cursor: 'pointer', background: selectedSubject === s.name ? 'var(--accent-glow)' : 'transparent', transition: 'all 0.2s', width: '100%' }} className="nav-item">
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
                                         <div style={{ width: 28, height: 28, borderRadius: '8px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: selectedSubject === s.name ? 'var(--accent)' : 'var(--text-secondary)' }}>
                                             <SubjectIcon name={s.name} emoji={s.icon} />
@@ -418,13 +418,13 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                                     </div>
                                     <div style={{ display: 'flex', gap: '1.5rem' }}>
                                         <div style={{ textAlign: 'right' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Active Grid</div>
-                                            <div style={{ fontSize: '1.1rem', fontWeight: 900, color: 'var(--text-primary)' }}>{questions.length} <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)' }}>UNIT(S)</span></div>
+                                            <div className="proto-label" style={{ marginBottom: '0.2rem', justifyContent: 'flex-end', fontSize: '0.65rem' }}>Active Sync</div>
+                                            <div style={{ fontSize: '1.2rem', fontWeight: 950, color: 'var(--text-primary)' }}>{questions.length} <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)' }}>UNITS</span></div>
                                         </div>
-                                        <div style={{ width: '1px', background: 'var(--border-light)', height: '100%' }} />
+                                        <div style={{ width: '1px', background: 'var(--border-light)', height: '24px', alignSelf: 'center' }} />
                                         <div style={{ textAlign: 'right' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--success)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Capacity</div>
-                                            <div style={{ fontSize: '1.1rem', fontWeight: 900, color: 'var(--text-primary)' }}>10 <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)' }}>CRC</span></div>
+                                            <div className="proto-label" style={{ color: 'var(--success)', marginBottom: '0.2rem', justifyContent: 'flex-end', fontSize: '0.65rem' }}>Capacity</div>
+                                            <div style={{ fontSize: '1.2rem', fontWeight: 950, color: 'var(--text-primary)' }}>10 <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)' }}>NODES</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -527,31 +527,31 @@ export function FeedClient({ user }: { user: TokenPayload }) {
                                     <h3 style={{ fontWeight: 900, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-primary)' }}>Verified Faculty</h3>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                            {[
-                                                { name: 'Dr. Rajesh Kumar', dept: 'CSE Dept', status: 'ACTIVE' },
-                                                { name: 'Prof. Sunita Mehta', dept: 'AIML Lead', status: 'ONLINE' }
-                                            ].map(m => (
-                                                <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem', borderRadius: '12px', transition: 'all 0.2s' }}>
-                                                    <div style={{ width: 44, height: 44, borderRadius: '14px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: 'var(--accent)' }}>
-                                                        <GraduationCap size={22} />
-                                                    </div>
-                                                    <div style={{ flex: 1, minWidth: 0 }}>
-                                                        <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                            {m.name} <UserCheck size={14} color="var(--accent)" />
-                                                        </div>
-                                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{m.dept}</div>
-                                                    </div>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 8px var(--success)' }} />
-                                                        <span style={{ fontSize: '0.6rem', color: 'var(--success)', fontWeight: 900 }}>{m.status}</span>
-                                                    </div>
+                                    {[
+                                        { name: 'Dr. Rajesh Kumar', dept: 'CSE Dept', status: 'ACTIVE' },
+                                        { name: 'Prof. Sunita Mehta', dept: 'AIML Lead', status: 'ONLINE' }
+                                    ].map(m => (
+                                        <div key={m.name} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem', borderRadius: '12px', transition: 'all 0.2s' }}>
+                                            <div style={{ width: 44, height: 44, borderRadius: '14px', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)', color: 'var(--accent)' }}>
+                                                <GraduationCap size={22} />
+                                            </div>
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    {m.name} <UserCheck size={14} color="var(--accent)" />
                                                 </div>
-                                            ))}
-
-                                            <div style={{ marginTop: '0.25rem', display: 'flex', justifyContent: 'center' }}>
-                                                <Link href="/faculty" onClick={() => { /* sidebar will close on navigation via mobile header handler */ }} style={{ padding: '0.5rem 0.75rem', borderRadius: 12, border: '1px solid var(--border-light)', background: 'transparent', color: 'var(--accent)', fontWeight: 800, fontSize: '0.85rem', textDecoration: 'none' }}>View all faculty</Link>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>{m.dept}</div>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 8px var(--success)' }} />
+                                                <span style={{ fontSize: '0.6rem', color: 'var(--success)', fontWeight: 900 }}>{m.status}</span>
                                             </div>
                                         </div>
+                                    ))}
+
+                                    <div style={{ marginTop: '0.25rem', display: 'flex', justifyContent: 'center' }}>
+                                        <Link href="/faculty" onClick={() => { /* sidebar will close on navigation via mobile header handler */ }} style={{ padding: '0.5rem 0.75rem', borderRadius: 12, border: '1px solid var(--border-light)', background: 'transparent', color: 'var(--accent)', fontWeight: 800, fontSize: '0.85rem', textDecoration: 'none' }}>View all faculty</Link>
+                                    </div>
+                                </div>
                             </div>
 
                             <div style={{ padding: '0 1rem', marginTop: '1rem' }}>
@@ -719,11 +719,11 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
                 {/* Modal Header */}
                 <div style={{ padding: '2rem 2.5rem', borderBottom: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.02)' }}>
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent)', marginBottom: '0.4rem' }}>
+                        <div className="proto-label" style={{ color: 'var(--accent)' }}>
                             <Plus size={18} />
-                            <span style={{ fontSize: '0.65rem', fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Initialize Doubt Protocol</span>
+                            <span>Initialize Doubt Protocol</span>
                         </div>
-                        <h2 style={{ fontWeight: 900, fontSize: '1.75rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Post new Resolution</h2>
+                        <h2 style={{ fontWeight: 950, fontSize: '1.85rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>Post new Resolution</h2>
                     </div>
                     <button onClick={onClose} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', cursor: 'pointer', color: 'var(--text-primary)', width: 40, height: 40, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}>✕</button>
                 </div>
@@ -733,14 +733,25 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
                         {/* Subject Selection */}
                         <div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                <label style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)' }}>Target Infrastructure</label>
-                                <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--bg-secondary)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-light)' }}>
+                                <label className="proto-label proto-label-dark">Target Infrastructure</label>
+                                <div className="desktop-only" style={{ display: 'flex', gap: '0.5rem', background: 'var(--bg-secondary)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-light)' }}>
                                     {Object.keys(categories).map(cat => (
                                         <button key={cat} type="button" onClick={() => setActiveTab(cat)} style={{ padding: '0.35rem 0.75rem', borderRadius: '8px', border: 'none', background: activeTab === cat ? 'var(--accent)' : 'transparent', color: activeTab === cat ? 'white' : 'var(--text-secondary)', fontSize: '0.7rem', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s' }}>{cat}</button>
                                     ))}
                                 </div>
+                                <div className="mobile-only" style={{ width: '100%' }}>
+                                    <select
+                                        className="category-select"
+                                        value={activeTab}
+                                        onChange={(e) => setActiveTab(e.target.value)}
+                                    >
+                                        {Object.keys(categories).map(cat => (
+                                            <option key={cat} value={cat}>{cat}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', maxHeight: '160px', overflowY: 'auto', padding: '0.5rem', background: 'rgba(0,0,0,0.2)', borderRadius: '16px', border: '1px solid var(--border-light)' }} className="custom-scrollbar">
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', maxHeight: '160px', overflowY: 'auto', padding: '0.5rem', background: 'rgba(0,0,0,0.2)', borderRadius: '16px', border: '1px solid var(--border-light)' }} className="custom-scrollbar subjects-grid">
                                 {subjects.filter(s => (categories as any)[activeTab]?.includes(s.name)).map(s => (
                                     <button key={s.id} type="button" onClick={() => setForm(f => ({ ...f, subjectId: s.id }))} style={{ padding: '0.6rem 1rem', borderRadius: '12px', background: form.subjectId === s.id ? 'var(--accent-glow)' : 'var(--bg-card)', border: form.subjectId === s.id ? '1px solid var(--accent)' : '1px solid var(--border-light)', color: 'var(--text-primary)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s' }}>
                                         <SubjectIcon name={s.name} emoji={s.icon} /> {s.name}
@@ -751,17 +762,17 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
 
                         {/* Question Title */}
                         <div>
-                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Query Identifier</label>
-                            <div style={{ display: 'flex', gap: '0.75rem' }}>
-                                <input style={{ flex: 1, background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '1.1rem', borderRadius: '16px', color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 500, outline: 'none' }} placeholder="High-level summary of your doubt..." value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
-                                <button type="button" onClick={async () => {
+                            <label className="proto-label proto-label-dark">Query Identifier</label>
+                            <div className="proto-flex-stack" style={{ display: 'flex', gap: '0.75rem' }}>
+                                <input style={{ flex: 1, background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '1.1rem', borderRadius: '16px', color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 500, outline: 'none', width: '100%' }} placeholder="High-level summary of your doubt..." value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
+                                <button type="button" className="mobile-full-width" onClick={async () => {
                                     setAiLoading(true); setSuggestion(null)
                                     try {
                                         const res = await fetch('/api/ai/enhance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
                                         const data = await res.json()
                                         if (data.ok) setSuggestion(data.enhanced)
                                     } catch (e) { } finally { setAiLoading(false) }
-                                }} style={{ background: 'linear-gradient(135deg, var(--accent), #6366f1)', border: 'none', color: 'white', padding: '0 1.5rem', borderRadius: '16px', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer', whiteSpace: 'nowrap', opacity: aiLoading ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: '0.5rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                                }} style={{ background: 'linear-gradient(135deg, var(--accent), #6366f1)', border: 'none', color: 'white', padding: '1.1rem 1.5rem', borderRadius: '16px', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer', whiteSpace: 'nowrap', opacity: aiLoading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 4px 12px var(--accent-glow)' }}>
                                     <Sparkles size={16} /> {aiLoading ? 'SYNCING...' : 'Enhance with AI'}
                                 </button>
                             </div>
@@ -769,7 +780,7 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
 
                         {/* Description */}
                         <div>
-                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Full Technical Context</label>
+                            <label className="proto-label proto-label-dark">Full Technical Context</label>
                             <textarea style={{ width: '100%', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '1.2rem', borderRadius: '16px', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 400, outline: 'none', resize: 'vertical', minHeight: '120px', lineHeight: 1.6 }} placeholder="Describe your technical blocker, expected output, and currently observed behavior..." value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} required />
                             {suggestion && (
                                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} style={{ marginTop: '1rem', border: '1px solid var(--accent-glow)', padding: '1.25rem', borderRadius: '16px', background: 'rgba(99,102,241,0.05)', position: 'relative' }}>
@@ -787,13 +798,13 @@ function AskModal({ subjects, onClose, onSuccess }: { subjects: Subject[]; onClo
                         </div>
 
                         {/* Code & Assets */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
+                        <div className="proto-grid-stack" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '1.5rem' }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Code Snippet</label>
+                                <label className="proto-label proto-label-dark">Code Snippet</label>
                                 <textarea style={{ width: '100%', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '1rem', borderRadius: '16px', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 400, outline: 'none', fontFamily: 'monospace', minHeight: '120px' }} placeholder="// Initialize code here..." value={form.codeSnippet} onChange={e => setForm(f => ({ ...f, codeSnippet: e.target.value }))} />
                             </div>
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Visual Attachment</label>
+                                <label className="proto-label proto-label-dark">Visual Attachment</label>
                                 {!form.image ? (
                                     <div onClick={() => document.getElementById('img-up')?.click()} style={{ height: '120px', border: '2px dashed var(--border-light)', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', cursor: 'pointer', background: 'var(--bg-secondary)', transition: 'all 0.2s' }}>
                                         <Plus size={24} />

@@ -7,7 +7,8 @@
   --bg-hover: rgba(255, 255, 255, 0.8);
   --border: rgba(46, 96, 79, 0.2);
   --border-light: rgba(46, 96, 79, 0.14);
-  --text-primary: #042e26; /* darker for improved legibility */
+  --text-primary: #042e26;
+  /* darker for improved legibility */
   --text-secondary: #183d34;
   --text-muted: #436a62;
   --accent: #2c5949;
@@ -138,7 +139,8 @@ body {
   background: var(--body-bg);
   background-attachment: fixed;
   color: var(--text-primary);
-  font-size: 16.5px; /* slightly larger base type */
+  font-size: 16.5px;
+  /* slightly larger base type */
   font-family: var(--font-family);
   min-height: 100vh;
   line-height: 1.5;
@@ -940,7 +942,7 @@ body {
     flex-direction: column !important;
   }
 
-  .feed-layout > main {
+  .feed-layout>main {
     border-right: none !important;
   }
 }
@@ -1107,15 +1109,64 @@ body {
     padding: 1.25rem 0.75rem !important;
   }
 
-  .proto-grid-stack {
-    grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
+  .mobile-full-width {
+    width: 100% !important;
   }
+}
 
-  .proto-flex-stack {
-    flex-direction: column !important;
-    gap: 0.75rem !important;
+
+.proto-label {
+  font-size: 0.75rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+/* Darker version for better visibility */
+.proto-label-dark {
+  color: var(--text-primary) !important;
+  opacity: 0.9 !important;
+}
+
+@media (max-width: 767px) {
+  .proto-label {
+    font-size: 0.9rem !important;
+    letter-spacing: 0.15em !important;
   }
+}
+
+/* Custom styles for AskModal dropdown */
+.category-select {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  border-radius: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 800;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232c5949' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.25rem center;
+  background-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.category-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow), 0 8px 24px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 479px) {
@@ -1166,5 +1217,19 @@ body {
   .proto-flex-stack {
     flex-direction: column !important;
     gap: 0.75rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .subjects-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.6rem !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .subjects-grid {
+    grid-template-columns: 1fr !important;
   }
 }
